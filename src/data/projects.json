@@ -1,0 +1,96 @@
+[
+  {
+    "id": "lemon",
+    "title": "Lemon",
+    "tagline": "Rust-based Telegram wallet adapter & Solana signing bridge",
+    "problem": "Interacting with Solana dApps from messaging clients typically forces users through custodial plaintext key bots or fragmented mobile deep-links.",
+    "description": "A high-throughput Telegram wallet adapter written in Rust, inspired by Phantom and Backpack. Coordinates session-scoped transaction signing, balance inspection, and Solana RPC dispatch directly through an ergonomic conversational interface.",
+    "impact": "Separates command parsing from Ed25519 signing pipelines using async Rust workers and structured state machines.",
+    "architectureNotes": [
+      "Async Tokio dispatcher handling concurrent Telegram webhook/long-poll updates without head-of-line blocking",
+      "Deterministic transaction simulation pre-flight check before submitting signed payloads to Solana RPC nodes",
+      "Strict session state isolation for multi-account keypair derivation and SPL token transfer workflows"
+    ],
+    "diagramType": "lemon-signer",
+    "repo": "shreyvats01/lemon",
+    "projectUrl": "https://github.com/shreyvats01/lemon",
+    "demoUrl": "",
+    "tags": ["Rust", "Solana", "Tokio", "Telegram Bot API", "Ed25519", "JSON-RPC"],
+    "featured": true
+  },
+  {
+    "id": "solana-programs",
+    "title": "Solana On-Chain Programs Suite",
+    "tagline": "ERC-4626 tokenized vault, atomic PDA escrow & delegated allowance contracts",
+    "problem": "Composable DeFi primitives on Solana require deterministic PDA derivation, overflow-safe share accounting, and strict CPI signer verification.",
+    "description": "A collection of native and Anchor-based Rust smart contracts implementing an ERC-4626-style yield vault standard adapted for Solana SPL tokens, alongside trustless two-party escrow and delegated token allowance programs.",
+    "impact": "Enforces zero-trust account ownership checks, proportional share mint/burn math, and atomic settlement via Program Derived Addresses.",
+    "architectureNotes": [
+      "ERC-4626 Vault: Calculates share-to-asset exchange ratios with checked fixed-point arithmetic to prevent rounding exploits",
+      "Escrow Engine: Locks maker SPL tokens in a vault PDA and executes atomic swap settlement upon taker fulfilment",
+      "Allowance Module: Enables scoped, revocable delegated spending approvals across SPL token accounts"
+    ],
+    "diagramType": "solana-vault",
+    "repo": "shreyvats01/solana-programs",
+    "projectUrl": "https://github.com/shreyvats01",
+    "demoUrl": "",
+    "tags": ["Rust", "Solana SVM", "Anchor", "SPL Token", "PDA / CPI", "ERC-4626"],
+    "featured": true
+  },
+  {
+    "id": "wiki-backend",
+    "title": "Wiki — Real-Time Community & Task Backend",
+    "tagline": "Event-driven collaborative backend with WebSockets and SQLx/PostgreSQL",
+    "problem": "Community learning and task platforms suffer from stale client state when concurrent updates rely solely on request-response polling.",
+    "description": "A low-latency backend service built for a 'learning in public' engineering community. Combines compile-time checked SQLx queries over PostgreSQL with persistent WebSocket rooms for real-time task synchronization and activity feeds.",
+    "impact": "Delivers strongly-typed relational persistence paired with multiplexed WebSocket event broadcasting.",
+    "architectureNotes": [
+      "Compile-time verified SQL queries via SQLx with connection pooling and transactional task state transitions",
+      "Room-scoped WebSocket hub broadcasting state deltas to connected subscribers in sub-millisecond fan-out",
+      "Structured authentication middleware and role-scoped access control for community milestones"
+    ],
+    "diagramType": "wiki-realtime",
+    "repo": "shreyvats01/wiki-backend",
+    "projectUrl": "https://github.com/shreyvats01/wiki-backend",
+    "demoUrl": "",
+    "tags": ["Rust", "PostgreSQL", "SQLx", "WebSockets", "REST API", "Systems"],
+    "featured": true
+  },
+  {
+    "id": "token-launchpad",
+    "title": "Solana SPL Token Launchpad",
+    "tagline": "Client-side SPL token mint initialization & authority management toolkit",
+    "problem": "Deploying custom SPL tokens with on-chain metadata and granular mint/freeze authority controls requires orchestrating multiple atomic instructions.",
+    "description": "A browser-based Solana launchpad utility that constructs and batches mint account allocation, metadata initialization, and initial supply distribution into a single wallet-signed transaction.",
+    "impact": "Streamlines multi-instruction SPL Token creation with client-side transaction assembly and wallet adapter integration.",
+    "architectureNotes": [
+      "Batches SystemProgram.createAccount, initializeMint, and associated token account creation into one atomic transaction",
+      "Supports configurable decimals, metadata URI attachment, and optional mint/freeze authority revocation",
+      "Direct Solana Wallet Adapter integration with real-time RPC confirmation tracking"
+    ],
+    "diagramType": "spl-launchpad",
+    "repo": "shreyvats01/token-launchpad",
+    "projectUrl": "https://github.com/shreyvats01",
+    "demoUrl": "",
+    "tags": ["TypeScript", "Solana web3.js", "SPL Token", "React", "Wallet Adapter"],
+    "featured": false
+  },
+  {
+    "id": "endroite",
+    "title": "Endroite Media Pipeline",
+    "tagline": "Automated Telegram media compositor & audio-visual processing bot",
+    "problem": "Applying consistent audio tracks and visual LUT/filter transformations to user-submitted media manually is slow and error-prone.",
+    "description": "An automated Telegram bot built in TypeScript that ingests images and video streams, runs non-blocking media compositing and audio muxing pipelines, and returns processed assets.",
+    "impact": "Automates multi-stage stream ingestion, filter application, and temporary buffer cleanup.",
+    "architectureNotes": [
+      "Asynchronous media job queue preventing memory exhaustion during concurrent video transcoding",
+      "Deterministic temporary file lifecycle management and stream piping"
+    ],
+    "diagramType": "media-pipeline",
+    "repo": "shreyvats01/endroite",
+    "projectUrl": "https://github.com/shreyvats01/endroite",
+    "demoUrl": "",
+    "tags": ["TypeScript", "Node.js", "Media Processing", "Telegram API", "Streams"],
+    "featured": false
+  }
+]
