@@ -43,7 +43,7 @@ export function ProjectsCatalogue({
                 className={`min-h-[38px] rounded-md border px-3 py-1.5 font-mono text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary whitespace-nowrap shrink-0 ${
                   active
                     ? "border-primary/50 bg-secondary text-primary font-medium"
-                    : "border-border bg-card text-muted-foreground hover:border-[#36404B] hover:text-foreground"
+                    : "border-border bg-card text-muted-foreground hover:border-foreground/25 hover:text-foreground"
                 }`}
               >
                 {category}
@@ -103,7 +103,7 @@ export function ProjectsCatalogue({
                       {repo.name}
                     </span>
                     <ArrowUpRight
-                      className="h-3.5 w-3.5 text-[#788391] group-hover:text-primary transition-colors shrink-0"
+                      className="h-3.5 w-3.5 text-muted-subtle group-hover:text-primary transition-colors shrink-0"
                       aria-hidden="true"
                     />
                   </div>
@@ -114,7 +114,7 @@ export function ProjectsCatalogue({
                   )}
                 </div>
 
-                <div className="flex items-center gap-3 font-mono text-xs text-[#788391] shrink-0 tabular-nums">
+                <div className="flex items-center gap-3 font-mono text-xs text-muted-subtle shrink-0 tabular-nums">
                   {repo.primaryLanguage && (
                     <span>{repo.primaryLanguage.name}</span>
                   )}

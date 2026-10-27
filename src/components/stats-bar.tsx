@@ -113,13 +113,13 @@ export function StatsBar({
             idx === 3 ? "lg:border-r-0" : ""
           }`}
         >
-          <dt className="font-mono text-[11px] sm:text-xs text-[#788391] truncate">
+          <dt className="font-mono text-[11px] sm:text-xs text-muted-subtle truncate">
             {item.label}
           </dt>
           <dd className="text-xl sm:text-2xl md:text-3xl font-semibold tracking-tight text-foreground font-mono tabular-nums">
             <CountUp to={item.value} />
           </dd>
-          <span className="font-mono text-[10px] sm:text-[11px] text-[#788391] truncate">
+          <span className="font-mono text-[10px] sm:text-[11px] text-muted-subtle truncate">
             {item.note}
           </span>
         </div>

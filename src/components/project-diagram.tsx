@@ -168,10 +168,10 @@ function MobileStepStack({
   };
 
   return (
-    <div className="sm:hidden rounded-lg border border-border bg-[#0B0D0F] p-4 space-y-3">
-      <div className="flex items-center justify-between gap-2 border-b border-border pb-2.5 font-mono text-[11px] text-[#788391]">
+    <div className="sm:hidden rounded-lg border border-border bg-secondary/40 p-4 space-y-3">
+      <div className="flex items-center justify-between gap-2 border-b border-border pb-2.5 font-mono text-[11px] text-muted-subtle">
         <span className="truncate">{config.header}</span>
-        <span className="shrink-0 text-[#A1AAB6]">{config.tech}</span>
+        <span className="shrink-0 text-muted-foreground">{config.tech}</span>
       </div>
 
       <div className="space-y-2">
@@ -181,12 +181,12 @@ function MobileStepStack({
               className={`rounded-md border p-3 space-y-1 ${
                 item.accent
                   ? "border-primary/40 bg-card"
-                  : "border-border bg-card/70"
+                  : "border-border bg-card"
               }`}
             >
               <span
                 className={`block font-mono text-[10px] ${
-                  item.accent ? "text-primary" : "text-[#788391]"
+                  item.accent ? "text-primary" : "text-muted-subtle"
                 }`}
               >
                 {item.step}
@@ -227,8 +227,8 @@ export function ProjectDiagram({
       {/* Tablet & Desktop (>= 640px): Full Horizontal SVG Diagram */}
       <div className="hidden sm:block">
         {type === "lemon-signer" && (
-          <div className="w-full rounded-lg border border-border bg-[#0B0D0F] p-5">
-            <div className="mb-3 flex items-center justify-between font-mono text-xs text-[#788391]">
+          <div className="w-full rounded-lg border border-border bg-secondary/40 p-5">
+            <div className="mb-3 flex items-center justify-between font-mono text-xs text-muted-subtle">
               <span>Architecture · Telegram to Solana RPC</span>
               <span>Tokio / Ed25519</span>
             </div>
@@ -248,7 +248,7 @@ export function ProjectDiagram({
                   markerHeight="5"
                   orient="auto-start-reverse"
                 >
-                  <path d="M 0 1 L 8 5 L 0 9 z" fill="#B7F36B" />
+                  <path d="M 0 1 L 8 5 L 0 9 z" fill="var(--primary)" />
                 </marker>
                 <marker
                   id="arrow-muted-lemon"
@@ -259,7 +259,7 @@ export function ProjectDiagram({
                   markerHeight="5"
                   orient="auto-start-reverse"
                 >
-                  <path d="M 0 1 L 8 5 L 0 9 z" fill="#788391" />
+                  <path d="M 0 1 L 8 5 L 0 9 z" fill="var(--muted-subtle)" />
                 </marker>
               </defs>
 
@@ -269,17 +269,17 @@ export function ProjectDiagram({
                 width="124"
                 height="80"
                 rx="6"
-                fill="#12161B"
-                stroke="#242A31"
+                fill="var(--card)"
+                stroke="var(--border)"
                 strokeWidth="1.25"
               />
-              <text x="26" y="64" fill="#788391" fontSize="9.5" fontFamily="monospace">
+              <text x="26" y="64" fill="var(--muted-subtle)" fontSize="9.5" fontFamily="monospace">
                 01 · CHAT
               </text>
-              <text x="26" y="84" fill="#F1F5F9" fontSize="11.5" fontWeight="600" fontFamily="sans-serif">
+              <text x="26" y="84" fill="var(--foreground)" fontSize="11.5" fontWeight="600" fontFamily="sans-serif">
                 Telegram Bot
               </text>
-              <text x="26" y="102" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
+              <text x="26" y="102" fill="var(--muted-foreground)" fontSize="9.5" fontFamily="monospace">
                 User Commands
               </text>
 
@@ -288,7 +288,7 @@ export function ProjectDiagram({
                 y1="80"
                 x2="174"
                 y2="80"
-                stroke="#B7F36B"
+                stroke="var(--primary)"
                 strokeWidth="1.25"
                 markerEnd="url(#arrow-lime-lemon)"
               />
@@ -299,21 +299,21 @@ export function ProjectDiagram({
                 width="142"
                 height="104"
                 rx="6"
-                fill="#12161B"
-                stroke="#B7F36B"
-                strokeOpacity="0.45"
+                fill="var(--card)"
+                stroke="var(--primary)"
+                strokeOpacity="0.55"
                 strokeWidth="1.25"
               />
-              <text x="192" y="52" fill="#B7F36B" fontSize="9.5" fontFamily="monospace">
+              <text x="192" y="52" fill="var(--primary)" fontSize="9.5" fontFamily="monospace">
                 02 · RUST SERVICE
               </text>
-              <text x="192" y="73" fill="#F1F5F9" fontSize="11.5" fontWeight="600" fontFamily="sans-serif">
+              <text x="192" y="73" fill="var(--foreground)" fontSize="11.5" fontWeight="600" fontFamily="sans-serif">
                 Tokio Worker
               </text>
-              <text x="192" y="92" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
+              <text x="192" y="92" fill="var(--muted-foreground)" fontSize="9.5" fontFamily="monospace">
                 • Command Parser
               </text>
-              <text x="192" y="108" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
+              <text x="192" y="108" fill="var(--muted-foreground)" fontSize="9.5" fontFamily="monospace">
                 • Tx Builder
               </text>
 
@@ -322,7 +322,7 @@ export function ProjectDiagram({
                 y1="60"
                 x2="358"
                 y2="60"
-                stroke="#B7F36B"
+                stroke="var(--primary)"
                 strokeWidth="1.25"
                 markerEnd="url(#arrow-lime-lemon)"
               />
@@ -331,7 +331,7 @@ export function ProjectDiagram({
                 y1="102"
                 x2="358"
                 y2="102"
-                stroke="#788391"
+                stroke="var(--muted-subtle)"
                 strokeWidth="1.25"
                 strokeDasharray="3 3"
                 markerEnd="url(#arrow-muted-lemon)"
@@ -343,14 +343,14 @@ export function ProjectDiagram({
                 width="124"
                 height="58"
                 rx="6"
-                fill="#171C22"
-                stroke="#242A31"
+                fill="var(--secondary)"
+                stroke="var(--border)"
                 strokeWidth="1.25"
               />
-              <text x="374" y="43" fill="#F1F5F9" fontSize="10.5" fontWeight="600" fontFamily="sans-serif">
+              <text x="374" y="43" fill="var(--foreground)" fontSize="10.5" fontWeight="600" fontFamily="sans-serif">
                 Ed25519 Signer
               </text>
-              <text x="374" y="61" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
+              <text x="374" y="61" fill="var(--muted-foreground)" fontSize="9.5" fontFamily="monospace">
                 Keypair Signature
               </text>
 
@@ -360,14 +360,14 @@ export function ProjectDiagram({
                 width="124"
                 height="52"
                 rx="6"
-                fill="#12161B"
-                stroke="#242A31"
+                fill="var(--card)"
+                stroke="var(--border)"
                 strokeWidth="1.25"
               />
-              <text x="374" y="109" fill="#F1F5F9" fontSize="10.5" fontWeight="600" fontFamily="sans-serif">
+              <text x="374" y="109" fill="var(--foreground)" fontSize="10.5" fontWeight="600" fontFamily="sans-serif">
                 RPC Simulation
               </text>
-              <text x="374" y="126" fill="#788391" fontSize="9.5" fontFamily="monospace">
+              <text x="374" y="126" fill="var(--muted-subtle)" fontSize="9.5" fontFamily="monospace">
                 Pre-flight check
               </text>
 
@@ -376,7 +376,7 @@ export function ProjectDiagram({
                 y1="52"
                 x2="518"
                 y2="72"
-                stroke="#B7F36B"
+                stroke="var(--primary)"
                 strokeWidth="1.25"
                 markerEnd="url(#arrow-lime-lemon)"
               />
@@ -385,7 +385,7 @@ export function ProjectDiagram({
                 y1="112"
                 x2="518"
                 y2="90"
-                stroke="#788391"
+                stroke="var(--muted-subtle)"
                 strokeWidth="1.25"
                 markerEnd="url(#arrow-muted-lemon)"
               />
@@ -396,17 +396,17 @@ export function ProjectDiagram({
                 width="106"
                 height="80"
                 rx="6"
-                fill="#12161B"
-                stroke="#242A31"
+                fill="var(--card)"
+                stroke="var(--border)"
                 strokeWidth="1.25"
               />
-              <text x="534" y="64" fill="#B7F36B" fontSize="9.5" fontFamily="monospace">
+              <text x="534" y="64" fill="var(--primary)" fontSize="9.5" fontFamily="monospace">
                 03 · NETWORK
               </text>
-              <text x="534" y="84" fill="#F1F5F9" fontSize="11.5" fontWeight="600" fontFamily="sans-serif">
+              <text x="534" y="84" fill="var(--foreground)" fontSize="11.5" fontWeight="600" fontFamily="sans-serif">
                 Solana RPC
               </text>
-              <text x="534" y="102" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
+              <text x="534" y="102" fill="var(--muted-foreground)" fontSize="9.5" fontFamily="monospace">
                 JSON-RPC Node
               </text>
             </svg>
@@ -414,8 +414,8 @@ export function ProjectDiagram({
         )}
 
         {type === "solana-vault" && (
-          <div className="w-full rounded-lg border border-border bg-[#0B0D0F] p-5">
-            <div className="mb-3 flex items-center justify-between font-mono text-xs text-[#788391]">
+          <div className="w-full rounded-lg border border-border bg-secondary/40 p-5">
+            <div className="mb-3 flex items-center justify-between font-mono text-xs text-muted-subtle">
               <span>Account Flow · Vault &amp; Escrow PDAs</span>
               <span>Anchor / SPL Token</span>
             </div>
@@ -435,7 +435,7 @@ export function ProjectDiagram({
                   markerHeight="5"
                   orient="auto-start-reverse"
                 >
-                  <path d="M 0 1 L 8 5 L 0 9 z" fill="#B7F36B" />
+                  <path d="M 0 1 L 8 5 L 0 9 z" fill="var(--primary)" />
                 </marker>
               </defs>
 
@@ -445,17 +445,17 @@ export function ProjectDiagram({
                 width="126"
                 height="88"
                 rx="6"
-                fill="#12161B"
-                stroke="#242A31"
+                fill="var(--card)"
+                stroke="var(--border)"
                 strokeWidth="1.25"
               />
-              <text x="24" y="58" fill="#788391" fontSize="9.5" fontFamily="monospace">
+              <text x="24" y="58" fill="var(--muted-subtle)" fontSize="9.5" fontFamily="monospace">
                 SIGNER
               </text>
-              <text x="24" y="79" fill="#F1F5F9" fontSize="11.5" fontWeight="600" fontFamily="sans-serif">
+              <text x="24" y="79" fill="var(--foreground)" fontSize="11.5" fontWeight="600" fontFamily="sans-serif">
                 User Token Acct
               </text>
-              <text x="24" y="98" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
+              <text x="24" y="98" fill="var(--muted-foreground)" fontSize="9.5" fontFamily="monospace">
                 Deposit / Withdraw
               </text>
 
@@ -464,7 +464,7 @@ export function ProjectDiagram({
                 y1="80"
                 x2="184"
                 y2="80"
-                stroke="#B7F36B"
+                stroke="var(--primary)"
                 strokeWidth="1.25"
                 markerEnd="url(#arrow-lime-vault)"
               />
@@ -475,18 +475,18 @@ export function ProjectDiagram({
                 width="230"
                 height="116"
                 rx="6"
-                fill="#12161B"
-                stroke="#B7F36B"
-                strokeOpacity="0.45"
+                fill="var(--card)"
+                stroke="var(--primary)"
+                strokeOpacity="0.55"
                 strokeWidth="1.25"
               />
-              <text x="204" y="45" fill="#B7F36B" fontSize="9.5" fontFamily="monospace">
+              <text x="204" y="45" fill="var(--primary)" fontSize="9.5" fontFamily="monospace">
                 SOLANA PROGRAM · PDA
               </text>
-              <text x="204" y="66" fill="#F1F5F9" fontSize="12" fontWeight="600" fontFamily="sans-serif">
+              <text x="204" y="66" fill="var(--foreground)" fontSize="12" fontWeight="600" fontFamily="sans-serif">
                 Vault &amp; Escrow Authority
               </text>
-              <text x="204" y="86" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
+              <text x="204" y="86" fill="var(--muted-foreground)" fontSize="9.5" fontFamily="monospace">
                 Checked share &amp; balance math
               </text>
               <rect
@@ -495,10 +495,10 @@ export function ProjectDiagram({
                 width="198"
                 height="26"
                 rx="4"
-                fill="#171C22"
-                stroke="#242A31"
+                fill="var(--secondary)"
+                stroke="var(--border)"
               />
-              <text x="214" y="114" fill="#F1F5F9" fontSize="9.5" fontFamily="monospace">
+              <text x="214" y="114" fill="var(--foreground)" fontSize="9.5" fontFamily="monospace">
                 seeds = [b&quot;vault&quot;, mint.key(), bump]
               </text>
 
@@ -507,7 +507,7 @@ export function ProjectDiagram({
                 y1="58"
                 x2="466"
                 y2="50"
-                stroke="#B7F36B"
+                stroke="var(--primary)"
                 strokeWidth="1.25"
                 markerEnd="url(#arrow-lime-vault)"
               />
@@ -516,7 +516,7 @@ export function ProjectDiagram({
                 y1="102"
                 x2="466"
                 y2="110"
-                stroke="#B7F36B"
+                stroke="var(--primary)"
                 strokeWidth="1.25"
                 markerEnd="url(#arrow-lime-vault)"
               />
@@ -527,14 +527,14 @@ export function ProjectDiagram({
                 width="156"
                 height="54"
                 rx="6"
-                fill="#171C22"
-                stroke="#242A31"
+                fill="var(--secondary)"
+                stroke="var(--border)"
                 strokeWidth="1.25"
               />
-              <text x="484" y="42" fill="#F1F5F9" fontSize="10.5" fontWeight="600" fontFamily="sans-serif">
+              <text x="484" y="42" fill="var(--foreground)" fontSize="10.5" fontWeight="600" fontFamily="sans-serif">
                 Token Vault Account
               </text>
-              <text x="484" y="60" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
+              <text x="484" y="60" fill="var(--muted-foreground)" fontSize="9.5" fontFamily="monospace">
                 SPL Transfer CPI
               </text>
 
@@ -544,14 +544,14 @@ export function ProjectDiagram({
                 width="156"
                 height="54"
                 rx="6"
-                fill="#171C22"
-                stroke="#242A31"
+                fill="var(--secondary)"
+                stroke="var(--border)"
                 strokeWidth="1.25"
               />
-              <text x="484" y="108" fill="#F1F5F9" fontSize="10.5" fontWeight="600" fontFamily="sans-serif">
+              <text x="484" y="108" fill="var(--foreground)" fontSize="10.5" fontWeight="600" fontFamily="sans-serif">
                 Vault Share Mint
               </text>
-              <text x="484" y="126" fill="#B7F36B" fontSize="9.5" fontFamily="monospace">
+              <text x="484" y="126" fill="var(--primary)" fontSize="9.5" fontFamily="monospace">
                 Mint / Burn Shares
               </text>
             </svg>
@@ -559,8 +559,8 @@ export function ProjectDiagram({
         )}
 
         {type === "wiki-realtime" && (
-          <div className="w-full rounded-lg border border-border bg-[#0B0D0F] p-5">
-            <div className="mb-3 flex items-center justify-between font-mono text-xs text-[#788391]">
+          <div className="w-full rounded-lg border border-border bg-secondary/40 p-5">
+            <div className="mb-3 flex items-center justify-between font-mono text-xs text-muted-subtle">
               <span>Data Flow · WebSockets &amp; SQLx</span>
               <span>Rust / PostgreSQL</span>
             </div>
@@ -580,7 +580,7 @@ export function ProjectDiagram({
                   markerHeight="5"
                   orient="auto-start-reverse"
                 >
-                  <path d="M 0 1 L 8 5 L 0 9 z" fill="#B7F36B" />
+                  <path d="M 0 1 L 8 5 L 0 9 z" fill="var(--primary)" />
                 </marker>
               </defs>
 
@@ -590,20 +590,20 @@ export function ProjectDiagram({
                 width="130"
                 height="100"
                 rx="6"
-                fill="#12161B"
-                stroke="#242A31"
+                fill="var(--card)"
+                stroke="var(--border)"
                 strokeWidth="1.25"
               />
-              <text x="26" y="54" fill="#788391" fontSize="9.5" fontFamily="monospace">
+              <text x="26" y="54" fill="var(--muted-subtle)" fontSize="9.5" fontFamily="monospace">
                 CLIENTS
               </text>
-              <text x="26" y="75" fill="#F1F5F9" fontSize="11.5" fontWeight="600" fontFamily="sans-serif">
+              <text x="26" y="75" fill="var(--foreground)" fontSize="11.5" fontWeight="600" fontFamily="sans-serif">
                 WebSocket Peers
               </text>
-              <text x="26" y="94" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
+              <text x="26" y="94" fill="var(--muted-foreground)" fontSize="9.5" fontFamily="monospace">
                 • Task Updates
               </text>
-              <text x="26" y="110" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
+              <text x="26" y="110" fill="var(--muted-foreground)" fontSize="9.5" fontFamily="monospace">
                 • Activity Feed
               </text>
 
@@ -612,7 +612,7 @@ export function ProjectDiagram({
                 y1="80"
                 x2="188"
                 y2="80"
-                stroke="#B7F36B"
+                stroke="var(--primary)"
                 strokeWidth="1.25"
                 markerEnd="url(#arrow-lime-wiki)"
               />
@@ -623,21 +623,21 @@ export function ProjectDiagram({
                 width="210"
                 height="112"
                 rx="6"
-                fill="#12161B"
-                stroke="#B7F36B"
-                strokeOpacity="0.45"
+                fill="var(--card)"
+                stroke="var(--primary)"
+                strokeOpacity="0.55"
                 strokeWidth="1.25"
               />
-              <text x="208" y="48" fill="#B7F36B" fontSize="9.5" fontFamily="monospace">
+              <text x="208" y="48" fill="var(--primary)" fontSize="9.5" fontFamily="monospace">
                 RUST BACKEND
               </text>
-              <text x="208" y="69" fill="#F1F5F9" fontSize="12" fontWeight="600" fontFamily="sans-serif">
+              <text x="208" y="69" fill="var(--foreground)" fontSize="12" fontWeight="600" fontFamily="sans-serif">
                 HTTP Router + WS Rooms
               </text>
-              <text x="208" y="90" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
+              <text x="208" y="90" fill="var(--muted-foreground)" fontSize="9.5" fontFamily="monospace">
                 • Broadcast channels per room
               </text>
-              <text x="208" y="108" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
+              <text x="208" y="108" fill="var(--muted-foreground)" fontSize="9.5" fontFamily="monospace">
                 • SQLx compile-time queries
               </text>
 
@@ -646,7 +646,7 @@ export function ProjectDiagram({
                 y1="80"
                 x2="452"
                 y2="80"
-                stroke="#B7F36B"
+                stroke="var(--primary)"
                 strokeWidth="1.25"
                 markerEnd="url(#arrow-lime-wiki)"
               />
@@ -657,20 +657,20 @@ export function ProjectDiagram({
                 width="170"
                 height="100"
                 rx="6"
-                fill="#171C22"
-                stroke="#242A31"
+                fill="var(--secondary)"
+                stroke="var(--border)"
                 strokeWidth="1.25"
               />
-              <text x="472" y="54" fill="#788391" fontSize="9.5" fontFamily="monospace">
+              <text x="472" y="54" fill="var(--muted-subtle)" fontSize="9.5" fontFamily="monospace">
                 DATABASE
               </text>
-              <text x="472" y="75" fill="#F1F5F9" fontSize="11.5" fontWeight="600" fontFamily="sans-serif">
+              <text x="472" y="75" fill="var(--foreground)" fontSize="11.5" fontWeight="600" fontFamily="sans-serif">
                 PostgreSQL
               </text>
-              <text x="472" y="94" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
+              <text x="472" y="94" fill="var(--muted-foreground)" fontSize="9.5" fontFamily="monospace">
                 Tasks &amp; Users Schema
               </text>
-              <text x="472" y="110" fill="#B7F36B" fontSize="9.5" fontFamily="monospace">
+              <text x="472" y="110" fill="var(--primary)" fontSize="9.5" fontFamily="monospace">
                 Connection Pool
               </text>
             </svg>
@@ -680,8 +680,8 @@ export function ProjectDiagram({
         {type !== "lemon-signer" &&
           type !== "solana-vault" &&
           type !== "wiki-realtime" && (
-            <div className="w-full rounded-lg border border-border bg-[#0B0D0F] p-5">
-              <div className="mb-3 flex items-center justify-between font-mono text-xs text-[#788391]">
+            <div className="w-full rounded-lg border border-border bg-secondary/40 p-5">
+              <div className="mb-3 flex items-center justify-between font-mono text-xs text-muted-subtle">
                 <span>Pipeline · {title}</span>
                 <span>
                   {MOBILE_DIAGRAM_STEPS[type]?.tech || "System Flow"}
@@ -699,17 +699,17 @@ export function ProjectDiagram({
                   width="180"
                   height="80"
                   rx="6"
-                  fill="#12161B"
-                  stroke="#242A31"
+                  fill="var(--card)"
+                  stroke="var(--border)"
                 />
-                <text x="28" y="46" fill="#788391" fontSize="9.5" fontFamily="monospace">
+                <text x="28" y="46" fill="var(--muted-subtle)" fontSize="9.5" fontFamily="monospace">
                   STEP 01
                 </text>
-                <text x="28" y="70" fill="#F1F5F9" fontSize="11.5" fontWeight="600">
+                <text x="28" y="70" fill="var(--foreground)" fontSize="11.5" fontWeight="600">
                   {MOBILE_DIAGRAM_STEPS[type]?.steps[0]?.title || "Input"}
                 </text>
 
-                <line x1="194" y1="60" x2="230" y2="60" stroke="#B7F36B" strokeWidth="1.25" />
+                <line x1="194" y1="60" x2="230" y2="60" stroke="var(--primary)" strokeWidth="1.25" />
 
                 <rect
                   x="230"
@@ -717,18 +717,18 @@ export function ProjectDiagram({
                   width="180"
                   height="80"
                   rx="6"
-                  fill="#12161B"
-                  stroke="#B7F36B"
-                  strokeOpacity="0.45"
+                  fill="var(--card)"
+                  stroke="var(--primary)"
+                  strokeOpacity="0.55"
                 />
-                <text x="244" y="46" fill="#B7F36B" fontSize="9.5" fontFamily="monospace">
+                <text x="244" y="46" fill="var(--primary)" fontSize="9.5" fontFamily="monospace">
                   STEP 02
                 </text>
-                <text x="244" y="70" fill="#F1F5F9" fontSize="11.5" fontWeight="600">
+                <text x="244" y="70" fill="var(--foreground)" fontSize="11.5" fontWeight="600">
                   {MOBILE_DIAGRAM_STEPS[type]?.steps[1]?.title || "Processing"}
                 </text>
 
-                <line x1="410" y1="60" x2="446" y2="60" stroke="#B7F36B" strokeWidth="1.25" />
+                <line x1="410" y1="60" x2="446" y2="60" stroke="var(--primary)" strokeWidth="1.25" />
 
                 <rect
                   x="446"
@@ -736,13 +736,13 @@ export function ProjectDiagram({
                   width="180"
                   height="80"
                   rx="6"
-                  fill="#171C22"
-                  stroke="#242A31"
+                  fill="var(--secondary)"
+                  stroke="var(--border)"
                 />
-                <text x="460" y="46" fill="#788391" fontSize="9.5" fontFamily="monospace">
+                <text x="460" y="46" fill="var(--muted-subtle)" fontSize="9.5" fontFamily="monospace">
                   STEP 03
                 </text>
-                <text x="460" y="70" fill="#F1F5F9" fontSize="11.5" fontWeight="600">
+                <text x="460" y="70" fill="var(--foreground)" fontSize="11.5" fontWeight="600">
                   {MOBILE_DIAGRAM_STEPS[type]?.steps[2]?.title || "Output"}
                 </text>
               </svg>

@@ -40,7 +40,7 @@ export default async function HomePage() {
 
             <Link
               href="/contact"
-              className="inline-flex min-h-[40px] items-center justify-center gap-2 rounded-md border border-border bg-card px-4 py-2 font-mono text-xs font-medium text-foreground transition-colors hover:border-[#36404B] hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              className="inline-flex min-h-[40px] items-center justify-center gap-2 rounded-md border border-border bg-card px-4 py-2 font-mono text-xs font-medium text-foreground transition-colors hover:border-foreground/25 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
               <span>Contact</span>
             </Link>

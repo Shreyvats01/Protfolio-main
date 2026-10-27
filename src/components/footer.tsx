@@ -3,8 +3,8 @@ import { siteConfig } from "@/lib/site-config";
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-[#0B0D0F]">
-      <div className="mx-auto flex max-w-4xl flex-col sm:flex-row items-start sm:items-center justify-between gap-5 px-4 sm:px-6 py-8 font-mono text-xs text-[#788391]">
+    <footer className="border-t border-border bg-background">
+      <div className="mx-auto flex max-w-4xl flex-col sm:flex-row items-start sm:items-center justify-between gap-5 px-4 sm:px-6 py-8 font-mono text-xs text-muted-subtle">
         <div className="flex items-center gap-2">
           <Link
             href="/"

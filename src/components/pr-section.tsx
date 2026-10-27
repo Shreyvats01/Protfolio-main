@@ -35,7 +35,7 @@ export function PrSection({
   const renderStateIndicator = (state: PullRequestNode["state"]) => {
     if (state === "MERGED") {
       return (
-        <span className="inline-flex items-center gap-1.5 font-mono text-xs text-[#C084FC] whitespace-nowrap shrink-0">
+        <span className="inline-flex items-center gap-1.5 font-mono text-xs text-purple-700 dark:text-[#C084FC] whitespace-nowrap shrink-0">
           <GitMerge className="h-3.5 w-3.5" aria-hidden="true" />
           <span>Merged</span>
         </span>
@@ -43,14 +43,14 @@ export function PrSection({
     }
     if (state === "OPEN") {
       return (
-        <span className="inline-flex items-center gap-1.5 font-mono text-xs text-[#4ADE80] whitespace-nowrap shrink-0">
+        <span className="inline-flex items-center gap-1.5 font-mono text-xs text-emerald-700 dark:text-[#4ADE80] whitespace-nowrap shrink-0">
           <CircleDot className="h-3.5 w-3.5" aria-hidden="true" />
           <span>Open</span>
         </span>
       );
     }
     return (
-      <span className="inline-flex items-center gap-1.5 font-mono text-xs text-[#94A3B8] whitespace-nowrap shrink-0">
+      <span className="inline-flex items-center gap-1.5 font-mono text-xs text-muted-subtle whitespace-nowrap shrink-0">
         <CircleSlash className="h-3.5 w-3.5" aria-hidden="true" />
         <span>Closed</span>
       </span>
@@ -71,7 +71,7 @@ export function PrSection({
       return (
         <div className="rounded-lg border border-border bg-card p-5 text-sm text-muted-foreground flex items-center justify-between gap-2">
           <span>{emptyMsg}</span>
-          <span className="font-mono text-xs text-[#788391] shrink-0">0 matching</span>
+          <span className="font-mono text-xs text-muted-subtle shrink-0">0 matching</span>
         </div>
       );
     }
@@ -94,11 +94,11 @@ export function PrSection({
                     {pr.title}
                   </span>
                   <ArrowUpRight
-                    className="h-3.5 w-3.5 shrink-0 text-[#788391] transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-primary mt-0.5 sm:mt-0"
+                    className="h-3.5 w-3.5 shrink-0 text-muted-subtle transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-primary mt-0.5 sm:mt-0"
                     aria-hidden="true"
                   />
                 </div>
-                <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs text-[#788391] tabular-nums">
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs text-muted-subtle tabular-nums">
                   <span className="text-muted-foreground truncate max-w-[200px] sm:max-w-none">
                     {pr.repository.nameWithOwner}
                   </span>
@@ -127,7 +127,7 @@ export function PrSection({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <GitPullRequest
-              className="h-4 w-4 text-[#788391]"
+              className="h-4 w-4 text-muted-subtle"
               aria-hidden="true"
             />
             <h3 className="text-base font-semibold tracking-tight text-foreground">
@@ -135,7 +135,7 @@ export function PrSection({
             </h3>
           </div>
 
-          <TabsList className="grid grid-cols-3 w-full sm:w-auto bg-[#0B0D0F] border border-border p-1 h-auto">
+          <TabsList className="grid grid-cols-3 w-full sm:w-auto bg-background border border-border p-1 h-auto">
             <TabsTrigger
               value="merged"
               className="px-2 sm:px-3 py-1.5 font-mono text-[11px] sm:text-xs whitespace-nowrap shrink-0 data-active:bg-secondary data-active:text-primary"

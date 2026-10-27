@@ -31,18 +31,18 @@ export function Heatmap({
 
   const getCellStyle = (count: number) => {
     if (count === 0) {
-      return "bg-[#141920] border border-[#222933]";
+      return "bg-secondary border border-border dark:bg-[#141920] dark:border-[#222933]";
     }
     if (count <= 2) {
-      return "bg-[#2C441E] border border-[#3B5B28]";
+      return "bg-[#C7E8B5] border border-[#AEDB97] dark:bg-[#2C441E] dark:border-[#3B5B28]";
     }
     if (count <= 5) {
-      return "bg-[#4D7C2B] border border-[#5E9635]";
+      return "bg-[#88CA68] border border-[#72B852] dark:bg-[#4D7C2B] dark:border-[#5E9635]";
     }
     if (count <= 10) {
-      return "bg-[#82B946] border border-[#96CF56]";
+      return "bg-[#4F9E2F] border border-[#3E8422] dark:bg-[#82B946] dark:border-[#96CF56]";
     }
-    return "bg-[#B7F36B] border border-[#CCF792]";
+    return "bg-[#2D6A1E] border border-[#225216] dark:bg-[#B7F36B] dark:border-[#CCF792]";
   };
 
   if (!weeks || weeks.length === 0) {
@@ -59,7 +59,7 @@ export function Heatmap({
                 : "Contribution calendar data is temporarily unavailable from the GitHub API."}
             </p>
           </div>
-          <span className="font-mono text-[11px] text-[#788391] whitespace-nowrap shrink-0">
+          <span className="font-mono text-[11px] text-muted-subtle whitespace-nowrap shrink-0">
             GraphQL · contributionsCollection
           </span>
         </div>
@@ -78,22 +78,22 @@ export function Heatmap({
           <h3 className="text-sm font-semibold text-foreground">
             52-Week Contribution Matrix
           </h3>
-          <p className="text-xs text-[#788391]">
+          <p className="text-xs text-muted-subtle">
             Tap or focus any day cell to inspect exact commit and review activity.
           </p>
         </div>
 
         {/* Intensity Legend */}
         <div
-          className="flex items-center gap-1.5 font-mono text-[11px] text-[#788391]"
+          className="flex items-center gap-1.5 font-mono text-[11px] text-muted-subtle"
           aria-label="Contribution intensity scale from zero to high"
         >
           <span>0</span>
-          <span className="h-3 w-3 rounded-[2px] bg-[#141920] border border-[#222933]" />
-          <span className="h-3 w-3 rounded-[2px] bg-[#2C441E] border border-[#3B5B28]" />
-          <span className="h-3 w-3 rounded-[2px] bg-[#4D7C2B] border border-[#5E9635]" />
-          <span className="h-3 w-3 rounded-[2px] bg-[#82B946] border border-[#96CF56]" />
-          <span className="h-3 w-3 rounded-[2px] bg-[#B7F36B] border border-[#CCF792]" />
+          <span className="h-3 w-3 rounded-[2px] bg-secondary border border-border dark:bg-[#141920] dark:border-[#222933]" />
+          <span className="h-3 w-3 rounded-[2px] bg-[#C7E8B5] border border-[#AEDB97] dark:bg-[#2C441E] dark:border-[#3B5B28]" />
+          <span className="h-3 w-3 rounded-[2px] bg-[#88CA68] border border-[#72B852] dark:bg-[#4D7C2B] dark:border-[#5E9635]" />
+          <span className="h-3 w-3 rounded-[2px] bg-[#4F9E2F] border border-[#3E8422] dark:bg-[#82B946] dark:border-[#96CF56]" />
+          <span className="h-3 w-3 rounded-[2px] bg-[#2D6A1E] border border-[#225216] dark:bg-[#B7F36B] dark:border-[#CCF792]" />
           <span>10+</span>
         </div>
       </div>

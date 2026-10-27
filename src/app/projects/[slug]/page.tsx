@@ -79,7 +79,7 @@ export default async function ProjectDetailPage({
 
         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
           <div className="space-y-2 max-w-2xl">
-            <div className="flex flex-wrap items-center gap-2 font-mono text-xs text-[#788391]">
+            <div className="flex flex-wrap items-center gap-2 font-mono text-xs text-muted-subtle">
               <span className="text-primary">{project.category || "Project"}</span>
               <span aria-hidden="true">·</span>
               <span className="truncate">{project.repo}</span>
@@ -103,7 +103,7 @@ export default async function ProjectDetailPage({
             >
               <GithubIcon className="h-3.5 w-3.5" />
               <span>View Source</span>
-              <ArrowUpRight className="h-3.5 w-3.5 text-[#788391]" aria-hidden="true" />
+              <ArrowUpRight className="h-3.5 w-3.5 text-muted-subtle" aria-hidden="true" />
             </a>
 
             {hasValidDemo && (
@@ -122,12 +122,12 @@ export default async function ProjectDetailPage({
 
         {/* Stack & Verified Repo Metadata */}
         <div className="flex flex-wrap items-center justify-between gap-3 pt-1 font-mono text-xs">
-          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[#A1AAB6]">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-muted-foreground">
             {project.tags.map((tag, index) => (
               <React.Fragment key={tag}>
                 <span>{tag}</span>
                 {index < project.tags.length - 1 && (
-                  <span aria-hidden="true" className="text-[#788391]">
+                  <span aria-hidden="true" className="text-muted-subtle">
                     ·
                   </span>
                 )}
@@ -136,7 +136,7 @@ export default async function ProjectDetailPage({
           </div>
 
           {repoStats && (
-            <div className="flex items-center gap-4 text-[#788391] tabular-nums">
+            <div className="flex items-center gap-4 text-muted-subtle tabular-nums">
               {repoStats.primaryLanguage && (
                 <span>{repoStats.primaryLanguage.name}</span>
               )}

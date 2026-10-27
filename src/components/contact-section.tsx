@@ -73,7 +73,7 @@ export function ContactSection() {
       <div className="md:col-span-5 space-y-6">
         <div className="rounded-lg border border-border bg-card p-5 space-y-4">
           <div className="space-y-1">
-            <span className="font-mono text-xs text-[#788391]">Email</span>
+            <span className="font-mono text-xs text-muted-subtle">Email</span>
             <a
               href={`mailto:${siteConfig.contact.email}`}
               className="block font-mono text-sm font-medium text-foreground hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
@@ -94,7 +94,7 @@ export function ContactSection() {
             <button
               type="button"
               onClick={handleCopyEmail}
-              className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary px-3 py-1.5 font-mono text-xs text-foreground transition-colors hover:border-[#36404B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary px-3 py-1.5 font-mono text-xs text-foreground transition-colors hover:border-foreground/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
               {copied ? (
                 <>
@@ -103,7 +103,7 @@ export function ContactSection() {
                 </>
               ) : (
                 <>
-                  <Copy className="h-3.5 w-3.5 text-[#788391]" aria-hidden="true" />
+                  <Copy className="h-3.5 w-3.5 text-muted-subtle" aria-hidden="true" />
                   <span>Copy</span>
                 </>
               )}
@@ -113,7 +113,7 @@ export function ContactSection() {
 
         {/* Social Links */}
         <div className="space-y-2">
-          <span className="block font-mono text-xs text-[#788391]">
+          <span className="block font-mono text-xs text-muted-subtle">
             Profiles
           </span>
           <div className="divide-y divide-border rounded-lg border border-border bg-card">
@@ -127,7 +127,7 @@ export function ContactSection() {
                 <GithubIcon className="h-4 w-4 text-muted-foreground" />
                 <span>GitHub</span>
               </span>
-              <span className="inline-flex items-center gap-1 font-mono text-xs text-[#788391] group-hover:text-foreground">
+              <span className="inline-flex items-center gap-1 font-mono text-xs text-muted-subtle group-hover:text-foreground">
                 <span>@shreyvats01</span>
                 <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
               </span>
@@ -143,7 +143,7 @@ export function ContactSection() {
                 <TwitterIcon className="h-4 w-4 text-muted-foreground" />
                 <span>X</span>
               </span>
-              <span className="inline-flex items-center gap-1 font-mono text-xs text-[#788391] group-hover:text-foreground">
+              <span className="inline-flex items-center gap-1 font-mono text-xs text-muted-subtle group-hover:text-foreground">
                 <span>@shreyvats01</span>
                 <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
               </span>
@@ -159,7 +159,7 @@ export function ContactSection() {
                 <LinkedinIcon className="h-4 w-4 text-muted-foreground" />
                 <span>LinkedIn</span>
               </span>
-              <span className="inline-flex items-center gap-1 font-mono text-xs text-[#788391] group-hover:text-foreground">
+              <span className="inline-flex items-center gap-1 font-mono text-xs text-muted-subtle group-hover:text-foreground">
                 <span>shreyvats01</span>
                 <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
               </span>

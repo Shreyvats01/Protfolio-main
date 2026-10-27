@@ -49,10 +49,10 @@ export function ProjectCard({
   const visibleTags = project.tags.slice(0, 4);
 
   return (
-    <article className="group flex flex-col justify-between rounded-lg border border-border bg-card p-4 sm:p-6 transition-colors duration-150 hover:border-[#36404B]">
+    <article className="group flex flex-col justify-between rounded-lg border border-border bg-card p-4 sm:p-6 transition-colors duration-150 hover:border-foreground/25">
       <div className="space-y-2.5 sm:space-y-3">
         {/* Top Row: Category + Repo Stars */}
-        <div className="flex items-center justify-between gap-2 font-mono text-xs text-[#788391]">
+        <div className="flex items-center justify-between gap-2 font-mono text-xs text-muted-subtle">
           <span>{project.category || "Project"}</span>
           {repoStats && repoStats.stargazerCount > 0 && (
             <span className="inline-flex items-center gap-1 tabular-nums">
@@ -81,12 +81,12 @@ export function ProjectCard({
 
       {/* Card Footer: 2-4 Tech Labels & Distinct Links */}
       <div className="mt-5 sm:mt-6 space-y-3.5 border-t border-border pt-4">
-        <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs text-[#A1AAB6]">
+        <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs text-muted-foreground">
           {visibleTags.map((tag, index) => (
             <React.Fragment key={tag}>
               <span>{tag}</span>
               {index < visibleTags.length - 1 && (
-                <span aria-hidden="true" className="text-[#788391]">
+                <span aria-hidden="true" className="text-muted-subtle">
                   ·
                 </span>
               )}

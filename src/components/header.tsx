@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { CommandPalette } from "@/components/command-palette";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { siteConfig } from "@/lib/site-config";
 
 const NAV_ITEMS = [
@@ -34,7 +35,7 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-[#0B0D0F]/95 backdrop-blur-sm">
+    <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur-sm">
       <div className="mx-auto flex max-w-4xl items-center justify-between gap-4 sm:gap-8 px-4 sm:px-6 py-3">
         {/* Zone 1: Personal Wordmark */}
         <Link
@@ -69,9 +70,10 @@ export function Header() {
           })}
         </nav>
 
-        {/* Zone 3: Command Palette Trigger & Mobile Menu Button */}
+        {/* Zone 3: Command Palette, Theme Toggle & Mobile Menu Button */}
         <div className="flex items-center gap-2 shrink-0">
           <CommandPalette />
+          <ThemeToggle />
 
           <button
             type="button"
@@ -81,7 +83,7 @@ export function Header() {
               mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"
             }
             onClick={() => setMobileMenuOpen((prev) => !prev)}
-            className="inline-flex md:hidden h-10 w-10 items-center justify-center rounded-md border border-border bg-card text-foreground transition-colors hover:border-[#36404B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            className="inline-flex md:hidden h-10 w-10 items-center justify-center rounded-md border border-border bg-card text-foreground transition-colors hover:border-foreground/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
             {mobileMenuOpen ? (
               <X className="h-4 w-4" aria-hidden="true" />
@@ -97,7 +99,7 @@ export function Header() {
         <nav
           id="mobile-navigation-drawer"
           aria-label="Mobile navigation"
-          className="md:hidden border-t border-border bg-[#0B0D0F] px-4 py-3"
+          className="md:hidden border-t border-border bg-background px-4 py-3"
         >
           <div className="flex flex-col space-y-1">
             {[...NAV_ITEMS, { label: "Activity", href: "/activity" }].map(

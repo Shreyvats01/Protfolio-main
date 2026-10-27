@@ -24,11 +24,11 @@ function Tabs({
 }
 
 const tabsListVariants = cva(
-  "group/tabs-list inline-flex w-fit items-center justify-center rounded-md border border-border bg-[#0B0D0F] p-1 text-muted-foreground group-data-vertical/tabs:h-fit group-data-vertical/tabs:flex-col data-[variant=line]:rounded-none data-[variant=line]:border-0",
+  "group/tabs-list inline-flex w-fit items-center justify-center rounded-md border border-border bg-background p-1 text-muted-foreground group-data-vertical/tabs:h-fit group-data-vertical/tabs:flex-col data-[variant=line]:rounded-none data-[variant=line]:border-0",
   {
     variants: {
       variant: {
-        default: "bg-[#0B0D0F]",
+        default: "bg-background",
         line: "gap-1 bg-transparent",
       },
     },
@@ -58,7 +58,7 @@ function TabsTrigger({ className, ...props }: TabsPrimitive.Tab.Props) {
     <TabsPrimitive.Tab
       data-slot="tabs-trigger"
       className={cn(
-        "relative inline-flex flex-1 items-center justify-center gap-1.5 rounded border border-transparent px-3 py-1.5 font-mono text-xs font-medium whitespace-nowrap text-[#788391] transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:pointer-events-none disabled:opacity-50 data-active:border-border data-active:bg-secondary data-active:text-foreground",
+        "relative inline-flex flex-1 items-center justify-center gap-1.5 rounded border border-transparent px-3 py-1.5 font-mono text-xs font-medium whitespace-nowrap text-muted-subtle transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:pointer-events-none disabled:opacity-50 data-active:border-border data-active:bg-secondary data-active:text-foreground",
         className
       )}
       {...props}

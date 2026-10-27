@@ -56,7 +56,7 @@ function CommandDialog({
         )}
         showCloseButton={showCloseButton}
       >
-        <Command className="[&_[cmdk-group-heading]]:px-2.5 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:font-mono [&_[cmdk-group-heading]]:text-[11px] [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-wider [&_[cmdk-group-heading]]:text-[#788391] [&_[cmdk-group]]:px-2 [&_[cmdk-group]]:py-1.5">
+        <Command className="[&_[cmdk-group-heading]]:px-2.5 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:font-mono [&_[cmdk-group-heading]]:text-[11px] [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-wider [&_[cmdk-group-heading]]:text-muted-subtle [&_[cmdk-group]]:px-2 [&_[cmdk-group]]:py-1.5">
           {children}
         </Command>
       </DialogContent>
@@ -71,13 +71,13 @@ function CommandInput({
   return (
     <div
       data-slot="command-input-wrapper"
-      className="flex items-center gap-2.5 border-b border-border bg-[#0B0D0F] px-3.5 py-2.5"
+      className="flex items-center gap-2.5 border-b border-border bg-background px-3.5 py-2.5"
     >
-      <SearchIcon className="size-4 shrink-0 text-[#788391]" />
+      <SearchIcon className="size-4 shrink-0 text-muted-subtle" />
       <CommandPrimitive.Input
         data-slot="command-input"
         className={cn(
-          "w-full bg-transparent text-sm text-foreground placeholder:text-[#788391] outline-none disabled:cursor-not-allowed disabled:opacity-50",
+          "w-full bg-transparent text-sm text-foreground placeholder:text-muted-subtle outline-none disabled:cursor-not-allowed disabled:opacity-50",
           className
         )}
         {...props}
@@ -109,7 +109,7 @@ function CommandEmpty({
   return (
     <CommandPrimitive.Empty
       data-slot="command-empty"
-      className={cn("py-8 text-center font-mono text-xs text-[#788391]", className)}
+      className={cn("py-8 text-center font-mono text-xs text-muted-subtle", className)}
       {...props}
     />
   )
@@ -169,7 +169,7 @@ function CommandShortcut({
     <span
       data-slot="command-shortcut"
       className={cn(
-        "ml-auto font-mono text-xs text-[#788391] group-data-selected/command-item:text-muted-foreground",
+        "ml-auto font-mono text-xs text-muted-subtle group-data-selected/command-item:text-muted-foreground",
         className
       )}
       {...props}

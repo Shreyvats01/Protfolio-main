@@ -22,9 +22,11 @@ import {
   Home,
   Mail,
   Search,
+  SunMoon,
   User,
 } from "lucide-react";
 import { GithubIcon, LinkedinIcon, TwitterIcon } from "@/components/icons";
+import { togglePortfolioTheme } from "@/components/theme-toggle";
 import { siteConfig } from "@/lib/site-config";
 import projectsData from "@/data/projects.json";
 
@@ -92,12 +94,12 @@ export function CommandPalette({
         aria-label="Search pages and projects"
         className={
           triggerClassName ||
-          "inline-flex h-10 w-10 sm:h-auto sm:w-auto items-center justify-center gap-2 rounded-md border border-border bg-card sm:px-2.5 sm:py-1.5 font-mono text-xs text-muted-foreground transition-colors hover:border-[#36404B] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary whitespace-nowrap shrink-0"
+          "inline-flex h-10 w-10 sm:h-8 sm:w-auto items-center justify-center gap-2 rounded-md border border-border bg-card sm:px-2.5 font-mono text-xs text-muted-foreground transition-colors hover:border-foreground/25 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary whitespace-nowrap shrink-0"
         }
       >
         <Search className="h-4 w-4 sm:h-3.5 sm:w-3.5" aria-hidden="true" />
         <span className="hidden sm:inline">Search</span>
-        <kbd className="hidden sm:inline-flex pointer-events-none items-center gap-0.5 rounded border border-border bg-[#0B0D0F] px-1.5 py-0.5 font-mono text-[10px] text-[#788391]">
+        <kbd className="hidden sm:inline-flex pointer-events-none items-center gap-0.5 rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[10px] text-muted-subtle">
           {isMac ? "⌘K" : "Ctrl K"}
         </kbd>
       </button>
@@ -106,9 +108,9 @@ export function CommandPalette({
         open={open}
         onOpenChange={setOpen}
         title="Navigate Portfolio"
-        description="Jump to pages, project details, or contact links"
+        description="Jump to pages, project details, or toggle theme"
       >
-        <CommandInput placeholder="Go to page or project..." />
+        <CommandInput placeholder="Go to page, project, or toggle theme..." />
         <CommandList>
           <CommandEmpty>No matching pages or projects.</CommandEmpty>
 
@@ -138,6 +140,15 @@ export function CommandPalette({
               <span>Contact</span>
               <CommandShortcut>/contact</CommandShortcut>
             </CommandItem>
+            <CommandItem
+              onSelect={() => {
+                togglePortfolioTheme();
+                setOpen(false);
+              }}
+            >
+              <SunMoon className="mr-2 h-4 w-4" />
+              <span>Toggle Light / Dark Theme</span>
+            </CommandItem>
           </CommandGroup>
 
           <CommandSeparator />
@@ -148,7 +159,7 @@ export function CommandPalette({
                 key={project.id}
                 onSelect={() => goToRoute(`/projects/${project.id}`)}
               >
-                <FolderGit2 className="mr-2 h-4 w-4 text-[#788391]" />
+                <FolderGit2 className="mr-2 h-4 w-4 text-muted-subtle" />
                 <span>{project.title}</span>
                 <CommandShortcut className="hidden sm:inline">
                   /projects/{project.id}
@@ -175,19 +186,19 @@ export function CommandPalette({
             <CommandItem onSelect={() => openExternal(siteConfig.socials.github)}>
               <GithubIcon className="mr-2 h-4 w-4" />
               <span>GitHub (@shreyvats01)</span>
-              <ArrowUpRight className="ml-auto h-3.5 w-3.5 text-[#788391]" />
+              <ArrowUpRight className="ml-auto h-3.5 w-3.5 text-muted-subtle" />
             </CommandItem>
             <CommandItem onSelect={() => openExternal(siteConfig.socials.x)}>
               <TwitterIcon className="mr-2 h-4 w-4" />
               <span>X (@shreyvats01)</span>
-              <ArrowUpRight className="ml-auto h-3.5 w-3.5 text-[#788391]" />
+              <ArrowUpRight className="ml-auto h-3.5 w-3.5 text-muted-subtle" />
             </CommandItem>
             <CommandItem
               onSelect={() => openExternal(siteConfig.socials.linkedin)}
             >
               <LinkedinIcon className="mr-2 h-4 w-4" />
               <span>LinkedIn (shreyvats01)</span>
-              <ArrowUpRight className="ml-auto h-3.5 w-3.5 text-[#788391]" />
+              <ArrowUpRight className="ml-auto h-3.5 w-3.5 text-muted-subtle" />
             </CommandItem>
           </CommandGroup>
         </CommandList>

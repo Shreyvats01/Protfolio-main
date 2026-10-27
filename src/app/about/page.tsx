@@ -25,7 +25,7 @@ export default function AboutPage() {
           >
             About
           </h1>
-          <p className="font-mono text-xs text-[#788391]">
+          <p className="font-mono text-xs text-muted-subtle">
             {siteConfig.name} · {siteConfig.location}
           </p>
         </header>
@@ -70,12 +70,12 @@ export default function AboutPage() {
                 <p className="text-xs sm:text-sm text-muted-foreground">
                   {group.description}
                 </p>
-                <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs text-[#A1AAB6]">
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs text-muted-foreground">
                   {group.skills.map((skill, idx) => (
                     <React.Fragment key={skill}>
                       <span>{skill}</span>
                       {idx < group.skills.length - 1 && (
-                        <span aria-hidden="true" className="text-[#788391]">
+                        <span aria-hidden="true" className="text-muted-subtle">
                           ·
                         </span>
                       )}
