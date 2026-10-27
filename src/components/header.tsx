@@ -35,10 +35,11 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-[#0B0D0F]/95 backdrop-blur-sm">
-      <div className="mx-auto flex max-w-4xl items-center justify-between gap-8 px-6 py-3.5">
+      <div className="mx-auto flex max-w-4xl items-center justify-between gap-4 sm:gap-8 px-4 sm:px-6 py-3">
         {/* Zone 1: Personal Wordmark */}
         <Link
           href="/"
+          onClick={() => setMobileMenuOpen(false)}
           className="font-mono text-sm font-semibold tracking-tight text-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm whitespace-nowrap shrink-0"
         >
           {siteConfig.monogram} · {siteConfig.name}
@@ -68,8 +69,8 @@ export function Header() {
           })}
         </nav>
 
-        {/* Zone 3: Restrained Command Palette Trigger & Mobile Menu Button */}
-        <div className="flex items-center gap-2.5 shrink-0">
+        {/* Zone 3: Command Palette Trigger & Mobile Menu Button */}
+        <div className="flex items-center gap-2 shrink-0">
           <CommandPalette />
 
           <button
@@ -80,7 +81,7 @@ export function Header() {
               mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"
             }
             onClick={() => setMobileMenuOpen((prev) => !prev)}
-            className="inline-flex md:hidden h-9 w-9 items-center justify-center rounded-md border border-border bg-card text-foreground transition-colors hover:border-[#36404B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            className="inline-flex md:hidden h-10 w-10 items-center justify-center rounded-md border border-border bg-card text-foreground transition-colors hover:border-[#36404B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
             {mobileMenuOpen ? (
               <X className="h-4 w-4" aria-hidden="true" />
@@ -96,7 +97,7 @@ export function Header() {
         <nav
           id="mobile-navigation-drawer"
           aria-label="Mobile navigation"
-          className="md:hidden border-t border-border bg-[#0B0D0F] px-6 py-4"
+          className="md:hidden border-t border-border bg-[#0B0D0F] px-4 py-3"
         >
           <div className="flex flex-col space-y-1">
             {[...NAV_ITEMS, { label: "Activity", href: "/activity" }].map(
@@ -108,7 +109,7 @@ export function Header() {
                     href={item.href}
                     aria-current={active ? "page" : undefined}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`rounded-md px-3 py-2 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                    className={`flex min-h-[44px] items-center rounded-md px-3 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
                       active
                         ? "bg-secondary text-primary font-medium"
                         : "text-muted-foreground hover:bg-card hover:text-foreground"

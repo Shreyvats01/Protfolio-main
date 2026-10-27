@@ -25,13 +25,12 @@ export function CountUp({
     }
 
     let animationFrameId: number;
-    const duration = 650; // bounded, snappy duration in ms
+    const duration = 650;
     const startTime = performance.now();
 
     const step = (now: number) => {
       const elapsed = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      // Cubic ease-out
       const eased = 1 - Math.pow(1 - progress, 3);
       setCount(Math.round(eased * to));
 
@@ -92,26 +91,35 @@ export function StatsBar({
         contributions === null ? "Requires GITHUB_TOKEN" : "52-week total",
     },
     {
-      label: "Public Repositories",
+      label: "Public Repos",
       value: repos,
       note: repos === null ? "Unavailable" : "Non-forked sources",
     },
     {
-      label: "Repository Stars",
+      label: "Repo Stars",
       value: stars,
       note: stars === null ? "Unavailable" : "Across public work",
     },
   ];
 
   return (
-    <dl className="grid grid-cols-2 lg:grid-cols-4 divide-y lg:divide-y-0 lg:divide-x divide-border rounded-lg border border-border bg-card">
-      {items.map((item) => (
-        <div key={item.label} className="p-5 flex flex-col justify-between gap-2">
-          <dt className="font-mono text-xs text-[#788391]">{item.label}</dt>
-          <dd className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground font-mono tabular-nums">
+    <dl className="grid grid-cols-2 lg:grid-cols-4 overflow-hidden rounded-lg border border-border bg-card">
+      {items.map((item, idx) => (
+        <div
+          key={item.label}
+          className={`p-4 sm:p-5 flex flex-col justify-between gap-1.5 border-border ${
+            idx < 2 ? "border-b lg:border-b-0" : ""
+          } ${idx % 2 === 0 ? "border-r" : "lg:border-r"} ${
+            idx === 3 ? "lg:border-r-0" : ""
+          }`}
+        >
+          <dt className="font-mono text-[11px] sm:text-xs text-[#788391] truncate">
+            {item.label}
+          </dt>
+          <dd className="text-xl sm:text-2xl md:text-3xl font-semibold tracking-tight text-foreground font-mono tabular-nums">
             <CountUp to={item.value} />
           </dd>
-          <span className="font-mono text-[11px] text-[#788391]">
+          <span className="font-mono text-[10px] sm:text-[11px] text-[#788391] truncate">
             {item.note}
           </span>
         </div>

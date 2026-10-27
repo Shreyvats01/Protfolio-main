@@ -47,40 +47,39 @@ export function Heatmap({
 
   if (!weeks || weeks.length === 0) {
     return (
-      <div className="rounded-lg border border-border bg-card p-6">
+      <div className="rounded-lg border border-border bg-card p-4 sm:p-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div className="space-y-1">
             <h3 className="text-sm font-semibold text-foreground">
               Contribution Calendar
             </h3>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs leading-relaxed text-muted-foreground">
               {status === "public_fallback"
                 ? "GitHub’s 52-week contribution graph requires an authenticated GraphQL token (GITHUB_TOKEN). Public repositories and pull requests remain live."
                 : "Contribution calendar data is temporarily unavailable from the GitHub API."}
             </p>
           </div>
           <span className="font-mono text-[11px] text-[#788391] whitespace-nowrap shrink-0">
-            GraphQL · user.contributionsCollection
+            GraphQL · contributionsCollection
           </span>
         </div>
       </div>
     );
   }
 
-  // Find the most recent day with activity as default readout
   const allDays = weeks.flatMap((w) => w.contributionDays);
   const latestDay = allDays[allDays.length - 1] || null;
   const activeReadout = selectedDay || latestDay;
 
   return (
-    <div className="rounded-lg border border-border bg-card p-5 md:p-6 space-y-4">
+    <div className="rounded-lg border border-border bg-card p-4 sm:p-6 space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
           <h3 className="text-sm font-semibold text-foreground">
             52-Week Contribution Matrix
           </h3>
           <p className="text-xs text-[#788391]">
-            Select or focus any day cell to inspect exact commit and review activity.
+            Tap or focus any day cell to inspect exact commit and review activity.
           </p>
         </div>
 
@@ -154,10 +153,10 @@ export function Heatmap({
       {activeReadout && (
         <div
           aria-live="polite"
-          className="flex items-center justify-between border-t border-border pt-3 font-mono text-xs text-muted-foreground tabular-nums"
+          className="flex flex-wrap items-center justify-between gap-2 border-t border-border pt-3 font-mono text-xs text-muted-foreground tabular-nums"
         >
           <span>
-            Inspected date:{" "}
+            Date:{" "}
             <strong className="font-medium text-foreground">
               {formatDayDate(activeReadout.date)}
             </strong>

@@ -1,6 +1,6 @@
 {
-  "summary":  "Updated implementation plan for refactoring the portfolio into a multi-route Next.js App Router application (/, /projects, /projects/[slug], /about, /contact, /activity), fixing light-looking UI surfaces, and rewriting all copy in a concise, natural developer voice.",
-  "updatedAt":  "2026-10-26T18:17:19.678578444Z",
+  "summary":  "Implementation plan for removing the flow box from project cards on / and /projects, adding responsive mobile vertical architecture cards on /projects/[slug], and fixing mobile layout, spacing, touch targets, and grid borders across 320px-430px viewports.",
+  "updatedAt":  "2026-10-27T01:30:48.035746109Z",
   "requestFeedback":  true,
   "userFacing":  true
 }

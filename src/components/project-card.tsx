@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, Star } from "lucide-react";
-import { ProjectDiagram } from "@/components/project-diagram";
 import type { RepoMetadata } from "@/lib/github";
 
 export type ProjectDecision = {
@@ -28,11 +27,9 @@ export type ProjectEntry = {
 export function ProjectCard({
   project,
   repoStats,
-  showPreview = true,
 }: {
   project: ProjectEntry;
   repoStats?: RepoMetadata | null;
-  showPreview?: boolean;
 }) {
   const detailHref = `/projects/${project.id}`;
   const sourceHref =
@@ -52,8 +49,8 @@ export function ProjectCard({
   const visibleTags = project.tags.slice(0, 4);
 
   return (
-    <article className="group flex flex-col justify-between rounded-lg border border-border bg-card p-6 transition-colors duration-150 hover:border-[#36404B]">
-      <div className="space-y-4">
+    <article className="group flex flex-col justify-between rounded-lg border border-border bg-card p-4 sm:p-6 transition-colors duration-150 hover:border-[#36404B]">
+      <div className="space-y-2.5 sm:space-y-3">
         {/* Top Row: Category + Repo Stars */}
         <div className="flex items-center justify-between gap-2 font-mono text-xs text-[#788391]">
           <span>{project.category || "Project"}</span>
@@ -67,7 +64,7 @@ export function ProjectCard({
 
         {/* Title & Concise Summary */}
         <div className="space-y-2">
-          <h3 className="text-xl font-semibold tracking-tight text-foreground">
+          <h3 className="text-lg sm:text-xl font-semibold tracking-tight text-foreground">
             <Link
               href={detailHref}
               className="hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm transition-colors"
@@ -79,28 +76,11 @@ export function ProjectCard({
           <p className="text-sm leading-relaxed text-muted-foreground">
             {project.summary}
           </p>
-
-          {project.detail && (
-            <p className="text-xs leading-relaxed text-[#788391]">
-              {project.detail}
-            </p>
-          )}
         </div>
-
-        {/* Optional Compact Schematic Preview */}
-        {showPreview && project.diagramType && (
-          <div className="pt-1">
-            <ProjectDiagram
-              type={project.diagramType}
-              title={project.title}
-              variant="compact"
-            />
-          </div>
-        )}
       </div>
 
       {/* Card Footer: 2-4 Tech Labels & Distinct Links */}
-      <div className="mt-6 space-y-4 border-t border-border pt-4">
+      <div className="mt-5 sm:mt-6 space-y-3.5 border-t border-border pt-4">
         <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs text-[#A1AAB6]">
           {visibleTags.map((tag, index) => (
             <React.Fragment key={tag}>
@@ -114,10 +94,10 @@ export function ProjectCard({
           ))}
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
+        <div className="flex items-center justify-between gap-3 pt-0.5">
           <Link
             href={detailHref}
-            className="inline-flex items-center gap-1.5 font-mono text-xs font-medium text-primary hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
+            className="inline-flex items-center gap-1.5 py-1 font-mono text-xs font-medium text-primary hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
           >
             <span>Project details</span>
             <ArrowRight
@@ -132,7 +112,7 @@ export function ProjectCard({
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`Source repository for ${project.title} on GitHub`}
-              className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
+              className="inline-flex items-center gap-1 py-1 text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
             >
               <span>Source</span>
               <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
@@ -144,7 +124,7 @@ export function ProjectCard({
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`Live demo for ${project.title}`}
-                className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
+                className="inline-flex items-center gap-1 py-1 text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
               >
                 <span>Live Demo</span>
                 <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />

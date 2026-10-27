@@ -21,6 +21,7 @@ import {
   FolderGit2,
   Home,
   Mail,
+  Search,
   User,
 } from "lucide-react";
 import { GithubIcon, LinkedinIcon, TwitterIcon } from "@/components/icons";
@@ -88,14 +89,15 @@ export function CommandPalette({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        aria-label="Open command palette"
+        aria-label="Search pages and projects"
         className={
           triggerClassName ||
-          "inline-flex items-center gap-2 rounded-md border border-border bg-card px-2.5 py-1.5 font-mono text-xs text-muted-foreground transition-colors hover:border-[#36404B] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary whitespace-nowrap shrink-0"
+          "inline-flex h-10 w-10 sm:h-auto sm:w-auto items-center justify-center gap-2 rounded-md border border-border bg-card sm:px-2.5 sm:py-1.5 font-mono text-xs text-muted-foreground transition-colors hover:border-[#36404B] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary whitespace-nowrap shrink-0"
         }
       >
+        <Search className="h-4 w-4 sm:h-3.5 sm:w-3.5" aria-hidden="true" />
         <span className="hidden sm:inline">Search</span>
-        <kbd className="pointer-events-none inline-flex items-center gap-0.5 rounded border border-border bg-[#0B0D0F] px-1.5 py-0.5 font-mono text-[10px] text-[#788391]">
+        <kbd className="hidden sm:inline-flex pointer-events-none items-center gap-0.5 rounded border border-border bg-[#0B0D0F] px-1.5 py-0.5 font-mono text-[10px] text-[#788391]">
           {isMac ? "⌘K" : "Ctrl K"}
         </kbd>
       </button>
@@ -148,7 +150,9 @@ export function CommandPalette({
               >
                 <FolderGit2 className="mr-2 h-4 w-4 text-[#788391]" />
                 <span>{project.title}</span>
-                <CommandShortcut>/projects/{project.id}</CommandShortcut>
+                <CommandShortcut className="hidden sm:inline">
+                  /projects/{project.id}
+                </CommandShortcut>
               </CommandItem>
             ))}
           </CommandGroup>
@@ -162,7 +166,7 @@ export function CommandPalette({
               ) : (
                 <Copy className="mr-2 h-4 w-4" />
               )}
-              <span>
+              <span className="truncate">
                 {copied
                   ? `Copied ${siteConfig.contact.email}`
                   : `Copy email (${siteConfig.contact.email})`}

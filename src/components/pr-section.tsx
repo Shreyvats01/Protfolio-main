@@ -60,7 +60,7 @@ export function PrSection({
   const renderList = (prs: PullRequestNode[], emptyMsg: string) => {
     if (status === "unavailable") {
       return (
-        <div className="rounded-lg border border-border bg-card p-6 text-sm text-muted-foreground">
+        <div className="rounded-lg border border-border bg-card p-5 text-sm text-muted-foreground">
           Pull request activity could not be retrieved because GitHub is
           currently unreachable.
         </div>
@@ -69,9 +69,9 @@ export function PrSection({
 
     if (!prs || prs.length === 0) {
       return (
-        <div className="rounded-lg border border-border bg-card p-6 text-sm text-muted-foreground flex items-center justify-between">
+        <div className="rounded-lg border border-border bg-card p-5 text-sm text-muted-foreground flex items-center justify-between gap-2">
           <span>{emptyMsg}</span>
-          <span className="font-mono text-xs text-[#788391]">0 matching</span>
+          <span className="font-mono text-xs text-[#788391] shrink-0">0 matching</span>
         </div>
       );
     }
@@ -86,20 +86,20 @@ export function PrSection({
               href={pr.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 md:px-5 transition-colors hover:bg-secondary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
+              className="group flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 p-4 sm:px-5 transition-colors hover:bg-secondary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
             >
               <div className="min-w-0 space-y-1">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-1">
+                <div className="flex items-start sm:items-center justify-between sm:justify-start gap-2">
+                  <span className="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2 sm:line-clamp-1">
                     {pr.title}
                   </span>
                   <ArrowUpRight
-                    className="h-3.5 w-3.5 shrink-0 text-[#788391] transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-primary"
+                    className="h-3.5 w-3.5 shrink-0 text-[#788391] transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-primary mt-0.5 sm:mt-0"
                     aria-hidden="true"
                   />
                 </div>
-                <div className="flex flex-wrap items-center gap-2 font-mono text-xs text-[#788391] tabular-nums">
-                  <span className="text-muted-foreground truncate max-w-[260px] sm:max-w-none">
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs text-[#788391] tabular-nums">
+                  <span className="text-muted-foreground truncate max-w-[200px] sm:max-w-none">
                     {pr.repository.nameWithOwner}
                   </span>
                   {formattedDate && (
@@ -111,7 +111,7 @@ export function PrSection({
                 </div>
               </div>
 
-              <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0">
+              <div className="flex items-center justify-start sm:justify-end gap-3 shrink-0">
                 {renderStateIndicator(pr.state)}
               </div>
             </Link>
@@ -135,22 +135,22 @@ export function PrSection({
             </h3>
           </div>
 
-          <TabsList className="grid grid-cols-3 w-full sm:w-auto bg-secondary border border-border p-1 h-auto">
+          <TabsList className="grid grid-cols-3 w-full sm:w-auto bg-[#0B0D0F] border border-border p-1 h-auto">
             <TabsTrigger
               value="merged"
-              className="px-3 py-1 font-mono text-xs whitespace-nowrap shrink-0 data-active:bg-card data-active:text-primary"
+              className="px-2 sm:px-3 py-1.5 font-mono text-[11px] sm:text-xs whitespace-nowrap shrink-0 data-active:bg-secondary data-active:text-primary"
             >
               Merged ({mergedPrs.length})
             </TabsTrigger>
             <TabsTrigger
               value="open"
-              className="px-3 py-1 font-mono text-xs whitespace-nowrap shrink-0 data-active:bg-card data-active:text-primary"
+              className="px-2 sm:px-3 py-1.5 font-mono text-[11px] sm:text-xs whitespace-nowrap shrink-0 data-active:bg-secondary data-active:text-primary"
             >
               Open ({openPrs.length})
             </TabsTrigger>
             <TabsTrigger
               value="closed"
-              className="px-3 py-1 font-mono text-xs whitespace-nowrap shrink-0 data-active:bg-card data-active:text-primary"
+              className="px-2 sm:px-3 py-1.5 font-mono text-[11px] sm:text-xs whitespace-nowrap shrink-0 data-active:bg-secondary data-active:text-primary"
             >
               Closed ({closedPrs.length})
             </TabsTrigger>

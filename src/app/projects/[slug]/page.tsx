@@ -66,12 +66,12 @@ export default async function ProjectDetailPage({
     rawDemoUrl.startsWith("http");
 
   return (
-    <article className="space-y-12">
+    <article className="space-y-10 sm:space-y-12">
       {/* Back Link & Header */}
-      <div className="space-y-6 border-b border-border pb-8">
+      <div className="space-y-5 sm:space-y-6 border-b border-border pb-6 sm:pb-8">
         <Link
           href="/projects"
-          className="inline-flex items-center gap-1.5 font-mono text-xs text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
+          className="inline-flex items-center gap-1.5 py-1 font-mono text-xs text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
         >
           <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
           <span>Back to projects</span>
@@ -79,27 +79,27 @@ export default async function ProjectDetailPage({
 
         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
           <div className="space-y-2 max-w-2xl">
-            <div className="flex items-center gap-2 font-mono text-xs text-[#788391]">
+            <div className="flex flex-wrap items-center gap-2 font-mono text-xs text-[#788391]">
               <span className="text-primary">{project.category || "Project"}</span>
               <span aria-hidden="true">·</span>
-              <span>{project.repo}</span>
+              <span className="truncate">{project.repo}</span>
             </div>
 
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-foreground">
               {project.title}
             </h1>
 
-            <p className="text-base text-muted-foreground leading-relaxed">
+            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
               {project.summary}
             </p>
           </div>
 
-          <div className="flex items-center gap-2.5 shrink-0">
+          <div className="flex flex-wrap items-center gap-2.5 shrink-0 pt-1 sm:pt-0">
             <a
               href={sourceHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-3.5 py-2 font-mono text-xs font-medium text-foreground transition-colors hover:border-primary/50 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              className="inline-flex min-h-[38px] items-center gap-2 rounded-md border border-border bg-card px-3.5 py-2 font-mono text-xs font-medium text-foreground transition-colors hover:border-primary/50 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
               <GithubIcon className="h-3.5 w-3.5" />
               <span>View Source</span>
@@ -111,7 +111,7 @@ export default async function ProjectDetailPage({
                 href={rawDemoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3.5 py-2 font-mono text-xs font-semibold text-primary-foreground transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                className="inline-flex min-h-[38px] items-center gap-1.5 rounded-md bg-primary px-3.5 py-2 font-mono text-xs font-semibold text-primary-foreground transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               >
                 <span>Live Demo</span>
                 <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
@@ -121,7 +121,7 @@ export default async function ProjectDetailPage({
         </div>
 
         {/* Stack & Verified Repo Metadata */}
-        <div className="flex flex-wrap items-center justify-between gap-4 pt-2 font-mono text-xs">
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-1 font-mono text-xs">
           <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[#A1AAB6]">
             {project.tags.map((tag, index) => (
               <React.Fragment key={tag}>
@@ -155,10 +155,10 @@ export default async function ProjectDetailPage({
 
       {/* Overview */}
       {project.overview && (
-        <section aria-labelledby="overview-heading" className="space-y-3 max-w-2xl">
+        <section aria-labelledby="overview-heading" className="space-y-2.5 max-w-2xl">
           <h2
             id="overview-heading"
-            className="text-lg font-semibold text-foreground"
+            className="text-base sm:text-lg font-semibold text-foreground"
           >
             Overview
           </h2>
@@ -168,37 +168,33 @@ export default async function ProjectDetailPage({
         </section>
       )}
 
-      {/* Full Architecture Diagram */}
+      {/* Responsive Architecture Diagram (Vertical cards on mobile, SVG on desktop) */}
       {project.diagramType && (
         <section aria-labelledby="diagram-heading" className="space-y-3">
           <h2
             id="diagram-heading"
-            className="text-lg font-semibold text-foreground"
+            className="text-base sm:text-lg font-semibold text-foreground"
           >
             How it works
           </h2>
-          <ProjectDiagram
-            type={project.diagramType}
-            title={project.title}
-            variant="full"
-          />
+          <ProjectDiagram type={project.diagramType} title={project.title} />
         </section>
       )}
 
       {/* Key Technical Decisions */}
       {project.decisions && project.decisions.length > 0 && (
-        <section aria-labelledby="decisions-heading" className="space-y-4">
+        <section aria-labelledby="decisions-heading" className="space-y-3.5">
           <h2
             id="decisions-heading"
-            className="text-lg font-semibold text-foreground"
+            className="text-base sm:text-lg font-semibold text-foreground"
           >
             Implementation details
           </h2>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-3.5 sm:gap-4 sm:grid-cols-2">
             {project.decisions.map((decision) => (
               <div
                 key={decision.title}
-                className="rounded-lg border border-border bg-card p-5 space-y-2"
+                className="rounded-lg border border-border bg-card p-4 sm:p-5 space-y-1.5"
               >
                 <h3 className="text-sm font-semibold text-foreground">
                   {decision.title}
