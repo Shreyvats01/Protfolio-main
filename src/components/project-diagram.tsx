@@ -8,24 +8,84 @@ export type DiagramType =
   | "media-pipeline"
   | string;
 
+const COMPACT_FLOWS: Record<
+  string,
+  { label: string; nodes: [string, string, string] }
+> = {
+  "lemon-signer": {
+    label: "Telegram → Rust → Solana RPC",
+    nodes: ["Telegram Update", "Tokio Signer", "Solana RPC"],
+  },
+  "solana-vault": {
+    label: "SPL Token → PDA Vault → Share Mint",
+    nodes: ["User Token Acct", "Vault PDA", "Share Mint CPI"],
+  },
+  "wiki-realtime": {
+    label: "Client WS → Rust Hub → PostgreSQL",
+    nodes: ["WebSocket Room", "Rust Server", "SQLx / Postgres"],
+  },
+  "spl-launchpad": {
+    label: "Browser Wallet → Tx Builder → SPL Mint",
+    nodes: ["Wallet Adapter", "Atomic Tx", "SPL Token Mint"],
+  },
+  "media-pipeline": {
+    label: "Upload → Stream Queue → Output",
+    nodes: ["Telegram Media", "Job Queue", "Encoded Output"],
+  },
+};
+
 export function ProjectDiagram({
   type,
   title,
+  variant = "full",
 }: {
-  type: DiagramType;
+  type?: DiagramType;
   title: string;
+  variant?: "compact" | "full";
 }) {
+  if (!type) return null;
+
+  if (variant === "compact") {
+    const flow = COMPACT_FLOWS[type];
+    if (!flow) return null;
+
+    return (
+      <div
+        aria-label={`Flow preview for ${title}: ${flow.nodes.join(" to ")}`}
+        className="rounded-md border border-border bg-[#0B0D0F] px-3.5 py-3"
+      >
+        <div className="flex items-center justify-between gap-2 font-mono text-[11px] text-[#A1AAB6]">
+          <span className="truncate rounded border border-border bg-card px-2 py-1 text-foreground">
+            {flow.nodes[0]}
+          </span>
+          <span aria-hidden="true" className="text-primary shrink-0">
+            →
+          </span>
+          <span className="truncate rounded border border-primary/30 bg-card px-2 py-1 text-foreground">
+            {flow.nodes[1]}
+          </span>
+          <span aria-hidden="true" className="text-primary shrink-0">
+            →
+          </span>
+          <span className="truncate rounded border border-border bg-card px-2 py-1 text-foreground">
+            {flow.nodes[2]}
+          </span>
+        </div>
+      </div>
+    );
+  }
+
   if (type === "lemon-signer") {
     return (
-      <div className="w-full rounded-md border border-[#242A31] bg-[#0B0D0F] p-4">
-        <div className="mb-3 flex items-center justify-between text-[11px] font-mono text-[#788391]">
-          <span>SYSTEM TOPOLOGY · TELEGRAM SIGNER BRIDGE</span>
-          <span className="text-[#A1AAB6]">ASYNC TOKIO / ED25519</span>
+      <div className="w-full rounded-lg border border-border bg-[#0B0D0F] p-5">
+        <div className="mb-3 flex items-center justify-between font-mono text-xs text-[#788391]">
+          <span>Architecture · Telegram to Solana RPC</span>
+          <span>Tokio / Ed25519</span>
         </div>
         <svg
-          viewBox="0 0 640 165"
+          viewBox="0 0 640 160"
           role="img"
-          aria-label={`Architecture diagram for ${title}: Telegram client dispatches commands to Rust Tokio router, which verifies session state, simulates transactions, and submits signed Ed25519 payloads to Solana RPC`}
+          aria-label={`Architecture diagram for ${title}: Telegram client sends commands to the Rust Tokio dispatcher, which simulates and signs transactions before sending them to Solana RPC`}
           className="w-full h-auto"
         >
           <defs>
@@ -53,15 +113,9 @@ export function ProjectDiagram({
             </marker>
           </defs>
 
-          {/* Subtle background grid lines */}
-          <line x1="0" y1="35" x2="640" y2="35" stroke="#171C22" strokeWidth="1" />
-          <line x1="0" y1="82" x2="640" y2="82" stroke="#171C22" strokeWidth="1" />
-          <line x1="0" y1="130" x2="640" y2="130" stroke="#171C22" strokeWidth="1" />
-
-          {/* Node 1: Telegram Client */}
           <rect
             x="12"
-            y="42"
+            y="40"
             width="124"
             height="80"
             rx="6"
@@ -69,34 +123,29 @@ export function ProjectDiagram({
             stroke="#242A31"
             strokeWidth="1.25"
           />
-          <text x="26" y="66" fill="#788391" fontSize="9.5" fontFamily="monospace">
-            01 · INGRESS
+          <text x="26" y="64" fill="#788391" fontSize="9.5" fontFamily="monospace">
+            01 · CHAT
           </text>
-          <text x="26" y="86" fill="#F1F5F9" fontSize="11.5" fontWeight="600" fontFamily="sans-serif">
-            Telegram Client
+          <text x="26" y="84" fill="#F1F5F9" fontSize="11.5" fontWeight="600" fontFamily="sans-serif">
+            Telegram Bot
           </text>
-          <text x="26" y="104" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
-            Webhook / Updates
+          <text x="26" y="102" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
+            User Commands
           </text>
 
-          {/* Connector 1 -> 2 */}
           <line
             x1="136"
-            y1="82"
+            y1="80"
             x2="174"
-            y2="82"
+            y2="80"
             stroke="#B7F36B"
             strokeWidth="1.25"
             markerEnd="url(#arrow-lime-lemon)"
           />
-          <text x="142" y="73" fill="#788391" fontSize="8.5" fontFamily="monospace">
-            TLS
-          </text>
 
-          {/* Node 2: Tokio Command Engine */}
           <rect
             x="178"
-            y="30"
+            y="28"
             width="142"
             height="104"
             rx="6"
@@ -105,44 +154,42 @@ export function ProjectDiagram({
             strokeOpacity="0.45"
             strokeWidth="1.25"
           />
-          <text x="192" y="54" fill="#B7F36B" fontSize="9.5" fontFamily="monospace">
-            02 · RUST RUNTIME
+          <text x="192" y="52" fill="#B7F36B" fontSize="9.5" fontFamily="monospace">
+            02 · RUST SERVICE
           </text>
-          <text x="192" y="75" fill="#F1F5F9" fontSize="11.5" fontWeight="600" fontFamily="sans-serif">
-            Tokio Dispatcher
+          <text x="192" y="73" fill="#F1F5F9" fontSize="11.5" fontWeight="600" fontFamily="sans-serif">
+            Tokio Worker
           </text>
-          <text x="192" y="94" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
-            • State Machine
+          <text x="192" y="92" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
+            • Command Parser
           </text>
-          <text x="192" y="110" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
+          <text x="192" y="108" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
             • Tx Builder
           </text>
 
-          {/* Connector 2 -> 3 */}
           <line
             x1="320"
-            y1="62"
+            y1="60"
             x2="358"
-            y2="62"
+            y2="60"
             stroke="#B7F36B"
             strokeWidth="1.25"
             markerEnd="url(#arrow-lime-lemon)"
           />
           <line
             x1="320"
-            y1="104"
+            y1="102"
             x2="358"
-            y2="104"
+            y2="102"
             stroke="#788391"
             strokeWidth="1.25"
             strokeDasharray="3 3"
             markerEnd="url(#arrow-muted-lemon)"
           />
 
-          {/* Node 3A: Ed25519 Key Vault */}
           <rect
             x="362"
-            y="24"
+            y="22"
             width="124"
             height="58"
             rx="6"
@@ -150,17 +197,16 @@ export function ProjectDiagram({
             stroke="#242A31"
             strokeWidth="1.25"
           />
-          <text x="374" y="45" fill="#F1F5F9" fontSize="10.5" fontWeight="600" fontFamily="sans-serif">
+          <text x="374" y="43" fill="#F1F5F9" fontSize="10.5" fontWeight="600" fontFamily="sans-serif">
             Ed25519 Signer
           </text>
-          <text x="374" y="63" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
-            Scoped Keypair
+          <text x="374" y="61" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
+            Keypair Signature
           </text>
 
-          {/* Node 3B: Pre-Flight Sim */}
           <rect
             x="362"
-            y="90"
+            y="88"
             width="124"
             height="52"
             rx="6"
@@ -168,37 +214,35 @@ export function ProjectDiagram({
             stroke="#242A31"
             strokeWidth="1.25"
           />
-          <text x="374" y="111" fill="#F1F5F9" fontSize="10.5" fontWeight="600" fontFamily="sans-serif">
+          <text x="374" y="109" fill="#F1F5F9" fontSize="10.5" fontWeight="600" fontFamily="sans-serif">
             RPC Simulation
           </text>
-          <text x="374" y="128" fill="#788391" fontSize="9.5" fontFamily="monospace">
-            simulateTransaction
+          <text x="374" y="126" fill="#788391" fontSize="9.5" fontFamily="monospace">
+            Pre-flight check
           </text>
 
-          {/* Connector 3 -> 4 */}
           <line
             x1="486"
-            y1="54"
+            y1="52"
             x2="518"
-            y2="74"
+            y2="72"
             stroke="#B7F36B"
             strokeWidth="1.25"
             markerEnd="url(#arrow-lime-lemon)"
           />
           <line
             x1="486"
-            y1="114"
+            y1="112"
             x2="518"
-            y2="92"
+            y2="90"
             stroke="#788391"
             strokeWidth="1.25"
             markerEnd="url(#arrow-muted-lemon)"
           />
 
-          {/* Node 4: Solana Mainnet / RPC */}
           <rect
             x="522"
-            y="42"
+            y="40"
             width="106"
             height="80"
             rx="6"
@@ -206,14 +250,14 @@ export function ProjectDiagram({
             stroke="#242A31"
             strokeWidth="1.25"
           />
-          <text x="534" y="66" fill="#B7F36B" fontSize="9.5" fontFamily="monospace">
-            04 · ON-CHAIN
+          <text x="534" y="64" fill="#B7F36B" fontSize="9.5" fontFamily="monospace">
+            03 · NETWORK
           </text>
-          <text x="534" y="86" fill="#F1F5F9" fontSize="11.5" fontWeight="600" fontFamily="sans-serif">
-            Solana SVM
+          <text x="534" y="84" fill="#F1F5F9" fontSize="11.5" fontWeight="600" fontFamily="sans-serif">
+            Solana RPC
           </text>
-          <text x="534" y="104" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
-            SPL / System CPI
+          <text x="534" y="102" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
+            JSON-RPC Node
           </text>
         </svg>
       </div>
@@ -222,15 +266,15 @@ export function ProjectDiagram({
 
   if (type === "solana-vault") {
     return (
-      <div className="w-full rounded-md border border-[#242A31] bg-[#0B0D0F] p-4">
-        <div className="mb-3 flex items-center justify-between text-[11px] font-mono text-[#788391]">
-          <span>ACCOUNT TOPOLOGY · ERC-4626 VAULT & PDA ESCROW</span>
-          <span className="text-[#A1AAB6]">ANCHOR / SPL CPI</span>
+      <div className="w-full rounded-lg border border-border bg-[#0B0D0F] p-5">
+        <div className="mb-3 flex items-center justify-between font-mono text-xs text-[#788391]">
+          <span>Account Flow · Vault &amp; Escrow PDAs</span>
+          <span>Anchor / SPL Token</span>
         </div>
         <svg
-          viewBox="0 0 640 165"
+          viewBox="0 0 640 160"
           role="img"
-          aria-label={`Architecture diagram for ${title}: Depositor SPL token account transfers assets via CPI to a deterministic PDA Vault Authority, which mints proportional vault shares`}
+          aria-label={`Architecture diagram for ${title}: User token account interacts with the Vault State PDA, which invokes SPL Token transfers and share minting`}
           className="w-full h-auto"
         >
           <defs>
@@ -247,13 +291,9 @@ export function ProjectDiagram({
             </marker>
           </defs>
 
-          <line x1="0" y1="40" x2="640" y2="40" stroke="#171C22" strokeWidth="1" />
-          <line x1="0" y1="125" x2="640" y2="125" stroke="#171C22" strokeWidth="1" />
-
-          {/* Signer Account */}
           <rect
             x="12"
-            y="38"
+            y="36"
             width="126"
             height="88"
             rx="6"
@@ -261,37 +301,29 @@ export function ProjectDiagram({
             stroke="#242A31"
             strokeWidth="1.25"
           />
-          <text x="24" y="60" fill="#788391" fontSize="9.5" fontFamily="monospace">
-            SIGNER · ATA
+          <text x="24" y="58" fill="#788391" fontSize="9.5" fontFamily="monospace">
+            SIGNER
           </text>
-          <text x="24" y="81" fill="#F1F5F9" fontSize="11.5" fontWeight="600" fontFamily="sans-serif">
+          <text x="24" y="79" fill="#F1F5F9" fontSize="11.5" fontWeight="600" fontFamily="sans-serif">
             User Token Acct
           </text>
-          <text x="24" y="100" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
-            Deposit / Redeem
-          </text>
-          <text x="24" y="114" fill="#788391" fontSize="8.5" fontFamily="monospace">
-            is_signer: true
+          <text x="24" y="98" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
+            Deposit / Withdraw
           </text>
 
-          {/* Arrow 1 */}
           <line
             x1="138"
-            y1="82"
+            y1="80"
             x2="184"
-            y2="82"
+            y2="80"
             stroke="#B7F36B"
             strokeWidth="1.25"
             markerEnd="url(#arrow-lime-vault)"
           />
-          <text x="145" y="73" fill="#B7F36B" fontSize="8.5" fontFamily="monospace">
-            ix data
-          </text>
 
-          {/* Program Box */}
           <rect
             x="188"
-            y="24"
+            y="22"
             width="230"
             height="116"
             rx="6"
@@ -300,55 +332,50 @@ export function ProjectDiagram({
             strokeOpacity="0.45"
             strokeWidth="1.25"
           />
-          <text x="204" y="47" fill="#B7F36B" fontSize="9.5" fontFamily="monospace">
-            ON-CHAIN PROGRAM · PDA SEEDS
+          <text x="204" y="45" fill="#B7F36B" fontSize="9.5" fontFamily="monospace">
+            SOLANA PROGRAM · PDA
           </text>
-          <text x="204" y="68" fill="#F1F5F9" fontSize="12" fontWeight="600" fontFamily="sans-serif">
-            Vault &amp; Escrow State PDA
+          <text x="204" y="66" fill="#F1F5F9" fontSize="12" fontWeight="600" fontFamily="sans-serif">
+            Vault &amp; Escrow Authority
           </text>
-          <text x="204" y="88" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
-            shares = assets * total_supply / pool
+          <text x="204" y="86" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
+            Checked share &amp; balance math
           </text>
           <rect
             x="204"
-            y="99"
+            y="97"
             width="198"
             height="26"
             rx="4"
             fill="#171C22"
             stroke="#242A31"
           />
-          <text x="214" y="116" fill="#F1F5F9" fontSize="9.5" fontFamily="monospace">
+          <text x="214" y="114" fill="#F1F5F9" fontSize="9.5" fontFamily="monospace">
             seeds = [b&quot;vault&quot;, mint.key(), bump]
           </text>
 
-          {/* Arrows to SPL CPI targets */}
           <line
             x1="418"
-            y1="60"
+            y1="58"
             x2="466"
-            y2="52"
+            y2="50"
             stroke="#B7F36B"
             strokeWidth="1.25"
             markerEnd="url(#arrow-lime-vault)"
           />
           <line
             x1="418"
-            y1="104"
+            y1="102"
             x2="466"
-            y2="112"
+            y2="110"
             stroke="#B7F36B"
             strokeWidth="1.25"
             markerEnd="url(#arrow-lime-vault)"
           />
-          <text x="424" y="46" fill="#788391" fontSize="8.5" fontFamily="monospace">
-            CPI
-          </text>
 
-          {/* Target 1: Vault Token Custody */}
           <rect
             x="470"
-            y="22"
+            y="20"
             width="156"
             height="54"
             rx="6"
@@ -356,17 +383,16 @@ export function ProjectDiagram({
             stroke="#242A31"
             strokeWidth="1.25"
           />
-          <text x="484" y="44" fill="#F1F5F9" fontSize="10.5" fontWeight="600" fontFamily="sans-serif">
-            Custody Token Vault
+          <text x="484" y="42" fill="#F1F5F9" fontSize="10.5" fontWeight="600" fontFamily="sans-serif">
+            Token Vault Account
           </text>
-          <text x="484" y="62" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
-            SPL TransferChecked
+          <text x="484" y="60" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
+            SPL Transfer CPI
           </text>
 
-          {/* Target 2: Share Mint Authority */}
           <rect
             x="470"
-            y="88"
+            y="86"
             width="156"
             height="54"
             rx="6"
@@ -374,11 +400,11 @@ export function ProjectDiagram({
             stroke="#242A31"
             strokeWidth="1.25"
           />
-          <text x="484" y="110" fill="#F1F5F9" fontSize="10.5" fontWeight="600" fontFamily="sans-serif">
-            Share Mint Authority
+          <text x="484" y="108" fill="#F1F5F9" fontSize="10.5" fontWeight="600" fontFamily="sans-serif">
+            Vault Share Mint
           </text>
-          <text x="484" y="128" fill="#B7F36B" fontSize="9.5" fontFamily="monospace">
-            MintTo / Burn Signed
+          <text x="484" y="126" fill="#B7F36B" fontSize="9.5" fontFamily="monospace">
+            Mint / Burn Shares
           </text>
         </svg>
       </div>
@@ -387,15 +413,15 @@ export function ProjectDiagram({
 
   if (type === "wiki-realtime") {
     return (
-      <div className="w-full rounded-md border border-[#242A31] bg-[#0B0D0F] p-4">
-        <div className="mb-3 flex items-center justify-between text-[11px] font-mono text-[#788391]">
-          <span>DATA PIPELINE · REAL-TIME WEBSOCKET &amp; SQLX ENGINE</span>
-          <span className="text-[#A1AAB6]">RUST / POSTGRESQL</span>
+      <div className="w-full rounded-lg border border-border bg-[#0B0D0F] p-5">
+        <div className="mb-3 flex items-center justify-between font-mono text-xs text-[#788391]">
+          <span>Data Flow · WebSockets &amp; SQLx</span>
+          <span>Rust / PostgreSQL</span>
         </div>
         <svg
-          viewBox="0 0 640 165"
+          viewBox="0 0 640 160"
           role="img"
-          aria-label={`Architecture diagram for ${title}: Connected clients communicate over multiplexed WebSockets with the Rust server, which executes compile-time checked SQLx transactions against PostgreSQL`}
+          aria-label={`Architecture diagram for ${title}: WebSocket clients connect to the Rust server, which persists tasks in PostgreSQL via SQLx`}
           className="w-full h-auto"
         >
           <defs>
@@ -412,12 +438,9 @@ export function ProjectDiagram({
             </marker>
           </defs>
 
-          <line x1="0" y1="82" x2="640" y2="82" stroke="#171C22" strokeWidth="1" />
-
-          {/* Clients */}
           <rect
             x="12"
-            y="32"
+            y="30"
             width="130"
             height="100"
             rx="6"
@@ -425,36 +448,32 @@ export function ProjectDiagram({
             stroke="#242A31"
             strokeWidth="1.25"
           />
-          <text x="26" y="56" fill="#788391" fontSize="9.5" fontFamily="monospace">
+          <text x="26" y="54" fill="#788391" fontSize="9.5" fontFamily="monospace">
             CLIENTS
           </text>
-          <text x="26" y="77" fill="#F1F5F9" fontSize="11.5" fontWeight="600" fontFamily="sans-serif">
-            WS Subscribers
+          <text x="26" y="75" fill="#F1F5F9" fontSize="11.5" fontWeight="600" fontFamily="sans-serif">
+            WebSocket Peers
           </text>
-          <text x="26" y="96" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
-            • Task Deltas
+          <text x="26" y="94" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
+            • Task Updates
           </text>
-          <text x="26" y="112" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
-            • Live Presence
+          <text x="26" y="110" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
+            • Activity Feed
           </text>
 
           <line
             x1="142"
-            y1="82"
+            y1="80"
             x2="188"
-            y2="82"
+            y2="80"
             stroke="#B7F36B"
             strokeWidth="1.25"
             markerEnd="url(#arrow-lime-wiki)"
           />
-          <text x="148" y="72" fill="#B7F36B" fontSize="8.5" fontFamily="monospace">
-            ws://
-          </text>
 
-          {/* Hub */}
           <rect
             x="192"
-            y="26"
+            y="24"
             width="210"
             height="112"
             rx="6"
@@ -463,36 +482,32 @@ export function ProjectDiagram({
             strokeOpacity="0.45"
             strokeWidth="1.25"
           />
-          <text x="208" y="50" fill="#B7F36B" fontSize="9.5" fontFamily="monospace">
-            RUST APPLICATION SERVER
+          <text x="208" y="48" fill="#B7F36B" fontSize="9.5" fontFamily="monospace">
+            RUST BACKEND
           </text>
-          <text x="208" y="71" fill="#F1F5F9" fontSize="12" fontWeight="600" fontFamily="sans-serif">
-            Room Broadcast Hub + REST
+          <text x="208" y="69" fill="#F1F5F9" fontSize="12" fontWeight="600" fontFamily="sans-serif">
+            HTTP Router + WS Rooms
           </text>
-          <text x="208" y="92" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
-            • Tokio MPSC Broadcast Channels
+          <text x="208" y="90" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
+            • Broadcast channels per room
           </text>
-          <text x="208" y="110" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
-            • Compile-Time SQLx Query Macros
+          <text x="208" y="108" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
+            • SQLx compile-time queries
           </text>
 
           <line
             x1="402"
-            y1="82"
+            y1="80"
             x2="452"
-            y2="82"
+            y2="80"
             stroke="#B7F36B"
             strokeWidth="1.25"
             markerEnd="url(#arrow-lime-wiki)"
           />
-          <text x="410" y="72" fill="#788391" fontSize="8.5" fontFamily="monospace">
-            PgPool
-          </text>
 
-          {/* Postgres */}
           <rect
             x="456"
-            y="32"
+            y="30"
             width="170"
             height="100"
             rx="6"
@@ -500,95 +515,91 @@ export function ProjectDiagram({
             stroke="#242A31"
             strokeWidth="1.25"
           />
-          <text x="472" y="56" fill="#788391" fontSize="9.5" fontFamily="monospace">
-            STORAGE ENGINE
+          <text x="472" y="54" fill="#788391" fontSize="9.5" fontFamily="monospace">
+            DATABASE
           </text>
-          <text x="472" y="77" fill="#F1F5F9" fontSize="11.5" fontWeight="600" fontFamily="sans-serif">
-            PostgreSQL Relational
+          <text x="472" y="75" fill="#F1F5F9" fontSize="11.5" fontWeight="600" fontFamily="sans-serif">
+            PostgreSQL
           </text>
-          <text x="472" y="96" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
-            ACID Task Ledger
+          <text x="472" y="94" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
+            Tasks &amp; Users Schema
           </text>
-          <text x="472" y="112" fill="#B7F36B" fontSize="9.5" fontFamily="monospace">
-            sqlx::query! verified
+          <text x="472" y="110" fill="#B7F36B" fontSize="9.5" fontFamily="monospace">
+            Connection Pool
           </text>
         </svg>
       </div>
     );
   }
 
+  const fallbackFlow = COMPACT_FLOWS[type] || {
+    label: "System Pipeline",
+    nodes: ["Input", "Processing", "Output"],
+  };
+
   return (
-    <div className="w-full rounded-md border border-[#242A31] bg-[#0B0D0F] p-4">
-      <div className="mb-3 flex items-center justify-between text-[11px] font-mono text-[#788391]">
-        <span>EXECUTION PIPELINE · {title.toUpperCase()}</span>
-        <span className="text-[#A1AAB6]">ATOMIC INSTRUCTION FLOW</span>
+    <div className="w-full rounded-lg border border-border bg-[#0B0D0F] p-5">
+      <div className="mb-3 flex items-center justify-between font-mono text-xs text-[#788391]">
+        <span>Pipeline · {title}</span>
+        <span>{fallbackFlow.label}</span>
       </div>
       <svg
-        viewBox="0 0 640 130"
+        viewBox="0 0 640 120"
         role="img"
-        aria-label={`Technical execution pipeline diagram for ${title}`}
+        aria-label={`Pipeline diagram for ${title}`}
         className="w-full h-auto"
       >
         <rect
           x="14"
-          y="24"
+          y="20"
           width="180"
-          height="82"
+          height="80"
           rx="6"
           fill="#12161B"
           stroke="#242A31"
         />
-        <text x="28" y="50" fill="#788391" fontSize="9.5" fontFamily="monospace">
-          STAGE 01
+        <text x="28" y="46" fill="#788391" fontSize="9.5" fontFamily="monospace">
+          STEP 01
         </text>
-        <text x="28" y="72" fill="#F1F5F9" fontSize="11.5" fontWeight="600">
-          Instruction Assembly
-        </text>
-        <text x="28" y="90" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
-          Schema &amp; Account Layout
+        <text x="28" y="70" fill="#F1F5F9" fontSize="11.5" fontWeight="600">
+          {fallbackFlow.nodes[0]}
         </text>
 
-        <line x1="194" y1="65" x2="230" y2="65" stroke="#B7F36B" strokeWidth="1.25" />
+        <line x1="194" y1="60" x2="230" y2="60" stroke="#B7F36B" strokeWidth="1.25" />
 
         <rect
           x="230"
-          y="24"
+          y="20"
           width="180"
-          height="82"
+          height="80"
           rx="6"
           fill="#12161B"
           stroke="#B7F36B"
           strokeOpacity="0.45"
         />
-        <text x="244" y="50" fill="#B7F36B" fontSize="9.5" fontFamily="monospace">
-          STAGE 02
+        <text x="244" y="46" fill="#B7F36B" fontSize="9.5" fontFamily="monospace">
+          STEP 02
         </text>
-        <text x="244" y="72" fill="#F1F5F9" fontSize="11.5" fontWeight="600">
-          Signature &amp; Dispatch
-        </text>
-        <text x="244" y="90" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
-          Atomic Batch Execution
+        <text x="244" y="70" fill="#F1F5F9" fontSize="11.5" fontWeight="600">
+          {fallbackFlow.nodes[1]}
         </text>
 
-        <line x1="410" y1="65" x2="446" y2="65" stroke="#B7F36B" strokeWidth="1.25" />
+        <line x1="410" y1="60" x2="446" y2="60" stroke="#B7F36B" strokeWidth="1.25" />
 
         <rect
           x="446"
-          y="24"
+          y="20"
           width="180"
-          height="82"
+          height="80"
           rx="6"
           fill="#171C22"
           stroke="#242A31"
         />
-        <text x="460" y="50" fill="#788391" fontSize="9.5" fontFamily="monospace">
-          STAGE 03
+        <text x="460" y="46" fill="#788391" fontSize="9.5" fontFamily="monospace">
+          STEP 03
         </text>
-        <text x="460" y="72" fill="#F1F5F9" fontSize="11.5" fontWeight="600">
-          Finalized State
-        </text>
-        <text x="460" y="90" fill="#A1AAB6" fontSize="9.5" fontFamily="monospace">
-          Deterministic Verification
+        <text x="460" y="70" fill="#F1F5F9" fontSize="11.5" fontWeight="600">
+          {fallbackFlow.nodes[2]}
         </text>
       </svg>
     </div>

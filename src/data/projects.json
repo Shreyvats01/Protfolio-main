@@ -2,95 +2,133 @@
   {
     "id": "lemon",
     "title": "Lemon",
-    "tagline": "Rust-based Telegram wallet adapter & Solana signing bridge",
-    "problem": "Interacting with Solana dApps from messaging clients typically forces users through custodial plaintext key bots or fragmented mobile deep-links.",
-    "description": "A high-throughput Telegram wallet adapter written in Rust, inspired by Phantom and Backpack. Coordinates session-scoped transaction signing, balance inspection, and Solana RPC dispatch directly through an ergonomic conversational interface.",
-    "impact": "Separates command parsing from Ed25519 signing pipelines using async Rust workers and structured state machines.",
-    "architectureNotes": [
-      "Async Tokio dispatcher handling concurrent Telegram webhook/long-poll updates without head-of-line blocking",
-      "Deterministic transaction simulation pre-flight check before submitting signed payloads to Solana RPC nodes",
-      "Strict session state isolation for multi-account keypair derivation and SPL token transfer workflows"
+    "category": "Solana",
+    "summary": "A Rust project that connects Telegram commands to Solana transactions. It explores async request handling, transaction signing, and RPC interaction.",
+    "detail": "Uses Tokio to process bot updates and sign Solana transactions through a chat interface.",
+    "overview": "Most Telegram wallet bots feel clunky or hide how transactions are built. I wrote Lemon in Rust to explore how a chat interface can act as a wallet adapter, similar in spirit to Phantom or Backpack. It receives Telegram updates, constructs Solana instructions, simulates transactions against an RPC node, and signs them.",
+    "decisions": [
+      {
+        "title": "Async update handling with Tokio",
+        "body": "Telegram bot updates arrive concurrently. Using Tokio tasks keeps slow RPC network calls from blocking new messages from other users."
+      },
+      {
+        "title": "Transaction simulation before signing",
+        "body": "Before submitting a transfer or program call, the bot runs a pre-flight RPC simulation so failed instructions are caught and reported clearly in chat."
+      },
+      {
+        "title": "Separated command parser and signer",
+        "body": "Keeping chat command parsing separate from Ed25519 signing logic makes it easier to test Solana transaction builders without running a live Telegram webhook."
+      }
     ],
     "diagramType": "lemon-signer",
     "repo": "shreyvats01/lemon",
     "projectUrl": "https://github.com/shreyvats01/lemon",
     "demoUrl": "",
-    "tags": ["Rust", "Solana", "Tokio", "Telegram Bot API", "Ed25519", "JSON-RPC"],
+    "tags": ["Rust", "Solana", "Tokio", "Telegram API"],
     "featured": true
   },
   {
     "id": "solana-programs",
-    "title": "Solana On-Chain Programs Suite",
-    "tagline": "ERC-4626 tokenized vault, atomic PDA escrow & delegated allowance contracts",
-    "problem": "Composable DeFi primitives on Solana require deterministic PDA derivation, overflow-safe share accounting, and strict CPI signer verification.",
-    "description": "A collection of native and Anchor-based Rust smart contracts implementing an ERC-4626-style yield vault standard adapted for Solana SPL tokens, alongside trustless two-party escrow and delegated token allowance programs.",
-    "impact": "Enforces zero-trust account ownership checks, proportional share mint/burn math, and atomic settlement via Program Derived Addresses.",
-    "architectureNotes": [
-      "ERC-4626 Vault: Calculates share-to-asset exchange ratios with checked fixed-point arithmetic to prevent rounding exploits",
-      "Escrow Engine: Locks maker SPL tokens in a vault PDA and executes atomic swap settlement upon taker fulfilment",
-      "Allowance Module: Enables scoped, revocable delegated spending approvals across SPL token accounts"
+    "title": "Solana On-Chain Programs",
+    "category": "Solana",
+    "summary": "A set of Rust programs on Solana covering a tokenized vault (ERC-4626 style), a two-party token escrow, and delegated spending allowances.",
+    "detail": "Built with Rust and Anchor using Program Derived Addresses (PDAs) and SPL Token CPIs.",
+    "overview": "To understand how Solana handles state and account permissions on-chain, I implemented several core financial primitives in Rust. The repository includes a vault program modeled after Ethereum's ERC-4626 standard, an escrow program for atomic token swaps, and an allowance program for delegated token transfers.",
+    "decisions": [
+      {
+        "title": "PDA vault custody",
+        "body": "Each vault and escrow state account uses deterministic Program Derived Addresses (PDAs) as token authority, so only the program itself can sign outgoing SPL token transfers."
+      },
+      {
+        "title": "Checked integer math for vault shares",
+        "body": "Calculating deposit shares and withdrawal amounts uses checked arithmetic in Rust to prevent integer overflow or rounding bugs."
+      },
+      {
+        "title": "Explicit account constraints",
+        "body": "Every instruction verifies token mint ownership, signer privileges, and account relationships before modifying balances."
+      }
     ],
     "diagramType": "solana-vault",
     "repo": "shreyvats01/solana-programs",
     "projectUrl": "https://github.com/shreyvats01",
     "demoUrl": "",
-    "tags": ["Rust", "Solana SVM", "Anchor", "SPL Token", "PDA / CPI", "ERC-4626"],
+    "tags": ["Rust", "Solana", "Anchor", "SPL Token"],
     "featured": true
   },
   {
     "id": "wiki-backend",
-    "title": "Wiki — Real-Time Community & Task Backend",
-    "tagline": "Event-driven collaborative backend with WebSockets and SQLx/PostgreSQL",
-    "problem": "Community learning and task platforms suffer from stale client state when concurrent updates rely solely on request-response polling.",
-    "description": "A low-latency backend service built for a 'learning in public' engineering community. Combines compile-time checked SQLx queries over PostgreSQL with persistent WebSocket rooms for real-time task synchronization and activity feeds.",
-    "impact": "Delivers strongly-typed relational persistence paired with multiplexed WebSocket event broadcasting.",
-    "architectureNotes": [
-      "Compile-time verified SQL queries via SQLx with connection pooling and transactional task state transitions",
-      "Room-scoped WebSocket hub broadcasting state deltas to connected subscribers in sub-millisecond fan-out",
-      "Structured authentication middleware and role-scoped access control for community milestones"
+    "title": "Wiki Backend",
+    "category": "Backend",
+    "summary": "A community platform backend for tracking shared tasks and learning progress, using PostgreSQL, SQLx, and WebSockets for live updates.",
+    "detail": "Combines REST endpoints for persistence with WebSocket rooms for real-time task state.",
+    "overview": "Wiki was built for a 'learning in public' community where members share tasks and progress updates. Instead of polling the server for changes, the backend pairs PostgreSQL storage with WebSocket rooms so task updates appear immediately for everyone connected.",
+    "decisions": [
+      {
+        "title": "Compile-time checked SQL with SQLx",
+        "body": "Using SQLx allows queries to be checked against the PostgreSQL schema at compile time, catching column or type mismatches before deployment."
+      },
+      {
+        "title": "Room-based WebSocket broadcasts",
+        "body": "When a user updates a task over HTTP or WebSocket, the server commits the change to Postgres and broadcasts the event to active connections in that room."
+      },
+      {
+        "title": "Simple connection pooling",
+        "body": "Shared database connection pools keep request latency steady when multiple clients load feeds and update tasks at the same time."
+      }
     ],
     "diagramType": "wiki-realtime",
     "repo": "shreyvats01/wiki-backend",
     "projectUrl": "https://github.com/shreyvats01/wiki-backend",
     "demoUrl": "",
-    "tags": ["Rust", "PostgreSQL", "SQLx", "WebSockets", "REST API", "Systems"],
+    "tags": ["Rust", "PostgreSQL", "SQLx", "WebSockets"],
     "featured": true
   },
   {
     "id": "token-launchpad",
-    "title": "Solana SPL Token Launchpad",
-    "tagline": "Client-side SPL token mint initialization & authority management toolkit",
-    "problem": "Deploying custom SPL tokens with on-chain metadata and granular mint/freeze authority controls requires orchestrating multiple atomic instructions.",
-    "description": "A browser-based Solana launchpad utility that constructs and batches mint account allocation, metadata initialization, and initial supply distribution into a single wallet-signed transaction.",
-    "impact": "Streamlines multi-instruction SPL Token creation with client-side transaction assembly and wallet adapter integration.",
-    "architectureNotes": [
-      "Batches SystemProgram.createAccount, initializeMint, and associated token account creation into one atomic transaction",
-      "Supports configurable decimals, metadata URI attachment, and optional mint/freeze authority revocation",
-      "Direct Solana Wallet Adapter integration with real-time RPC confirmation tracking"
+    "title": "Solana Token Launchpad",
+    "category": "Solana",
+    "summary": "A web tool for creating SPL tokens on Solana, setting token metadata, and configuring mint authorities in a single wallet transaction.",
+    "detail": "Assembles mint account creation and initialization instructions on the client with web3.js.",
+    "overview": "Creating a new SPL token on Solana involves several separate instructions: allocating the mint account, initializing decimals and authorities, creating an associated token account, and minting initial supply. This web app bundles those steps into one transaction signed through a browser wallet.",
+    "decisions": [
+      {
+        "title": "Single-transaction batching",
+        "body": "Combining account creation and mint initialization into one atomic transaction prevents partial state if a user rejects or drops a second prompt."
+      },
+      {
+        "title": "Client-side wallet adapter integration",
+        "body": "Uses the Solana Wallet Adapter so users sign directly with their own wallet without exposing keys to a backend server."
+      }
     ],
     "diagramType": "spl-launchpad",
     "repo": "shreyvats01/token-launchpad",
     "projectUrl": "https://github.com/shreyvats01",
     "demoUrl": "",
-    "tags": ["TypeScript", "Solana web3.js", "SPL Token", "React", "Wallet Adapter"],
+    "tags": ["TypeScript", "Solana web3.js", "SPL Token", "React"],
     "featured": false
   },
   {
     "id": "endroite",
-    "title": "Endroite Media Pipeline",
-    "tagline": "Automated Telegram media compositor & audio-visual processing bot",
-    "problem": "Applying consistent audio tracks and visual LUT/filter transformations to user-submitted media manually is slow and error-prone.",
-    "description": "An automated Telegram bot built in TypeScript that ingests images and video streams, runs non-blocking media compositing and audio muxing pipelines, and returns processed assets.",
-    "impact": "Automates multi-stage stream ingestion, filter application, and temporary buffer cleanup.",
-    "architectureNotes": [
-      "Asynchronous media job queue preventing memory exhaustion during concurrent video transcoding",
-      "Deterministic temporary file lifecycle management and stream piping"
+    "title": "Endroite",
+    "category": "Systems & Rust",
+    "summary": "A Telegram bot built with TypeScript and Node.js that automates adding custom audio tracks and visual effects to uploaded images and videos.",
+    "detail": "Processes media streams asynchronously and cleans up temporary buffers after delivery.",
+    "overview": "Endroite is a utility bot for Telegram that takes user-uploaded photos or video clips, applies preset visual filters and background audio tracks, and replies with the finished video file. It was an exercise in handling media streams and child processes cleanly in Node.js.",
+    "decisions": [
+      {
+        "title": "Queued media jobs",
+        "body": "Video encoding uses significant CPU and memory, so incoming requests are queued rather than spawned all at once."
+      },
+      {
+        "title": "Automatic temp file cleanup",
+        "body": "Each job writes to an isolated temporary path and removes intermediate files whether encoding succeeds or fails."
+      }
     ],
     "diagramType": "media-pipeline",
     "repo": "shreyvats01/endroite",
     "projectUrl": "https://github.com/shreyvats01/endroite",
     "demoUrl": "",
-    "tags": ["TypeScript", "Node.js", "Media Processing", "Telegram API", "Streams"],
+    "tags": ["TypeScript", "Node.js", "Telegram API", "Streams"],
     "featured": false
   }
 ]

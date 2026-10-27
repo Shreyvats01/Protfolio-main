@@ -1,6 +1,5 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -17,6 +16,7 @@
   --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
   --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-muted: var(--muted-subtle);
   --color-sidebar: var(--sidebar);
   --color-chart-5: var(--chart-5);
   --color-chart-4: var(--chart-4);
@@ -30,6 +30,7 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
+  --color-muted-subtle: var(--muted-subtle);
   --color-muted: var(--muted);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-secondary: var(--secondary);
@@ -49,6 +50,8 @@
 }
 
 :root,
+html,
+html.dark,
 .dark {
   --background: #0B0D0F;
   --foreground: #F1F5F9;
@@ -92,6 +95,8 @@
 
   html {
     @apply font-sans;
+    background-color: #0B0D0F;
+    color: #F1F5F9;
     scroll-behavior: smooth;
     color-scheme: dark;
   }
@@ -114,12 +119,8 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
-  section[id] {
-    scroll-margin-top: 5.5rem;
-  }
-
   ::selection {
-    background-color: rgba(183, 243, 107, 0.22);
+    background-color: rgba(183, 243, 107, 0.2);
     color: #F1F5F9;
   }
 }

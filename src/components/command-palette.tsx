@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useSyncExternalStore } from "react";
+import { useRouter } from "next/navigation";
 import {
   CommandDialog,
   CommandEmpty,
@@ -17,10 +18,9 @@ import {
   Check,
   Code2,
   Copy,
-  Cpu,
   FolderGit2,
+  Home,
   Mail,
-  Send,
   User,
 } from "lucide-react";
 import { GithubIcon, LinkedinIcon, TwitterIcon } from "@/components/icons";
@@ -36,6 +36,8 @@ export function CommandPalette({
 }) {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const router = useRouter();
+
   const isMac = useSyncExternalStore(
     emptySubscribe,
     () =>
@@ -57,15 +59,9 @@ export function CommandPalette({
     return () => document.removeEventListener("keydown", down);
   }, []);
 
-  const navigateToSection = (hash: string) => {
+  const goToRoute = (href: string) => {
     setOpen(false);
-    const el = document.querySelector(hash);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-      window.history.replaceState(null, "", hash);
-    } else {
-      window.location.hash = hash;
-    }
+    router.push(href);
   };
 
   const openExternal = (url: string) => {
@@ -80,7 +76,7 @@ export function CommandPalette({
       setTimeout(() => {
         setCopied(false);
         setOpen(false);
-      }, 650);
+      }, 600);
     } catch {
       window.location.href = `mailto:${siteConfig.contact.email}`;
       setOpen(false);
@@ -95,10 +91,10 @@ export function CommandPalette({
         aria-label="Open command palette"
         className={
           triggerClassName ||
-          "inline-flex items-center gap-2 rounded-md border border-border bg-secondary px-2.5 py-1.5 font-mono text-xs text-muted-foreground transition-colors hover:border-[#36404B] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary whitespace-nowrap shrink-0"
+          "inline-flex items-center gap-2 rounded-md border border-border bg-card px-2.5 py-1.5 font-mono text-xs text-muted-foreground transition-colors hover:border-[#36404B] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary whitespace-nowrap shrink-0"
         }
       >
-        <span>Command</span>
+        <span className="hidden sm:inline">Search</span>
         <kbd className="pointer-events-none inline-flex items-center gap-0.5 rounded border border-border bg-[#0B0D0F] px-1.5 py-0.5 font-mono text-[10px] text-[#788391]">
           {isMac ? "⌘K" : "Ctrl K"}
         </kbd>
@@ -107,63 +103,59 @@ export function CommandPalette({
       <CommandDialog
         open={open}
         onOpenChange={setOpen}
-        title="Portfolio Command Palette"
-        description="Jump to sections, inspect repositories, or contact Shrey Vats"
+        title="Navigate Portfolio"
+        description="Jump to pages, project details, or contact links"
       >
-        <CommandInput placeholder="Jump to section, repository, or contact..." />
+        <CommandInput placeholder="Go to page or project..." />
         <CommandList>
-          <CommandEmpty>No matching commands or repositories.</CommandEmpty>
+          <CommandEmpty>No matching pages or projects.</CommandEmpty>
 
-          <CommandGroup heading="Sections">
-            <CommandItem onSelect={() => navigateToSection("#projects")}>
+          <CommandGroup heading="Pages">
+            <CommandItem onSelect={() => goToRoute("/")}>
+              <Home className="mr-2 h-4 w-4" />
+              <span>Home</span>
+              <CommandShortcut>/</CommandShortcut>
+            </CommandItem>
+            <CommandItem onSelect={() => goToRoute("/projects")}>
               <Code2 className="mr-2 h-4 w-4 text-primary" />
-              <span>Selected Work &amp; Architecture</span>
-              <CommandShortcut>#projects</CommandShortcut>
+              <span>Projects</span>
+              <CommandShortcut>/projects</CommandShortcut>
             </CommandItem>
-            <CommandItem onSelect={() => navigateToSection("#about")}>
+            <CommandItem onSelect={() => goToRoute("/about")}>
               <User className="mr-2 h-4 w-4" />
-              <span>About &amp; Engineering Approach</span>
-              <CommandShortcut>#about</CommandShortcut>
+              <span>About</span>
+              <CommandShortcut>/about</CommandShortcut>
             </CommandItem>
-            <CommandItem onSelect={() => navigateToSection("#systems")}>
-              <Cpu className="mr-2 h-4 w-4" />
-              <span>Systems &amp; Technical Focus</span>
-              <CommandShortcut>#systems</CommandShortcut>
-            </CommandItem>
-            <CommandItem onSelect={() => navigateToSection("#activity")}>
+            <CommandItem onSelect={() => goToRoute("/activity")}>
               <Activity className="mr-2 h-4 w-4" />
-              <span>GitHub Activity &amp; Pull Requests</span>
-              <CommandShortcut>#activity</CommandShortcut>
+              <span>GitHub Activity</span>
+              <CommandShortcut>/activity</CommandShortcut>
             </CommandItem>
-            <CommandItem onSelect={() => navigateToSection("#contact")}>
+            <CommandItem onSelect={() => goToRoute("/contact")}>
               <Mail className="mr-2 h-4 w-4" />
-              <span>Contact &amp; Direct Dispatch</span>
-              <CommandShortcut>#contact</CommandShortcut>
+              <span>Contact</span>
+              <CommandShortcut>/contact</CommandShortcut>
             </CommandItem>
           </CommandGroup>
 
           <CommandSeparator />
 
-          <CommandGroup heading="Featured Repositories">
+          <CommandGroup heading="Projects">
             {projectsData.map((project) => (
               <CommandItem
                 key={project.id}
-                onSelect={() =>
-                  openExternal(
-                    project.projectUrl || `https://github.com/${project.repo}`
-                  )
-                }
+                onSelect={() => goToRoute(`/projects/${project.id}`)}
               >
                 <FolderGit2 className="mr-2 h-4 w-4 text-[#788391]" />
                 <span>{project.title}</span>
-                <CommandShortcut>{project.repo}</CommandShortcut>
+                <CommandShortcut>/projects/{project.id}</CommandShortcut>
               </CommandItem>
             ))}
           </CommandGroup>
 
           <CommandSeparator />
 
-          <CommandGroup heading="Direct Contact & Profiles">
+          <CommandGroup heading="Contact & Profiles">
             <CommandItem onSelect={handleCopyEmail}>
               {copied ? (
                 <Check className="mr-2 h-4 w-4 text-primary" />
@@ -173,38 +165,25 @@ export function CommandPalette({
               <span>
                 {copied
                   ? `Copied ${siteConfig.contact.email}`
-                  : `Copy Email (${siteConfig.contact.email})`}
+                  : `Copy email (${siteConfig.contact.email})`}
               </span>
-            </CommandItem>
-            <CommandItem
-              onSelect={() => {
-                setOpen(false);
-                window.location.href = `mailto:${siteConfig.contact.email}`;
-              }}
-            >
-              <Mail className="mr-2 h-4 w-4" />
-              <span>Compose Email ({siteConfig.contact.email})</span>
-            </CommandItem>
-            <CommandItem
-              onSelect={() => openExternal(siteConfig.contact.portalUrl)}
-            >
-              <Send className="mr-2 h-4 w-4" />
-              <span>Open Contact Portal (contact.shrey.online)</span>
-              <ArrowUpRight className="ml-auto h-3.5 w-3.5 text-[#788391]" />
             </CommandItem>
             <CommandItem onSelect={() => openExternal(siteConfig.socials.github)}>
               <GithubIcon className="mr-2 h-4 w-4" />
               <span>GitHub (@shreyvats01)</span>
+              <ArrowUpRight className="ml-auto h-3.5 w-3.5 text-[#788391]" />
             </CommandItem>
             <CommandItem onSelect={() => openExternal(siteConfig.socials.x)}>
               <TwitterIcon className="mr-2 h-4 w-4" />
-              <span>X / Twitter (@shreyvats01)</span>
+              <span>X (@shreyvats01)</span>
+              <ArrowUpRight className="ml-auto h-3.5 w-3.5 text-[#788391]" />
             </CommandItem>
             <CommandItem
               onSelect={() => openExternal(siteConfig.socials.linkedin)}
             >
               <LinkedinIcon className="mr-2 h-4 w-4" />
               <span>LinkedIn (shreyvats01)</span>
+              <ArrowUpRight className="ml-auto h-3.5 w-3.5 text-[#788391]" />
             </CommandItem>
           </CommandGroup>
         </CommandList>

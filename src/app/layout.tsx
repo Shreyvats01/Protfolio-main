@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Header } from "@/components/header";
+import { Footer } from "@/components/footer";
 import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
 
@@ -16,20 +18,18 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: "Shrey Vats — Systems, Rust & Solana Developer",
+    default: "Shrey Vats — Rust, Backend & Solana Developer",
     template: "%s | Shrey Vats",
   },
   description:
-    "Engineering portfolio of Shrey Vats, focusing on Rust, low-level backend systems, and on-chain protocol development on Solana.",
+    "Portfolio of Shrey Vats. Building software with Rust, TypeScript, PostgreSQL, and tools from the Solana ecosystem.",
   keywords: [
     "Shrey Vats",
     "shreyvats01",
     "Rust Developer",
     "Solana Developer",
-    "Systems Programming",
-    "Backend Engineering",
-    "On-chain Programs",
-    "Anchor",
+    "Backend Developer",
+    "TypeScript",
     "PostgreSQL",
   ],
   authors: [{ name: siteConfig.name, url: siteConfig.socials.github }],
@@ -38,37 +38,30 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_IN",
     url: "/",
-    title: "Shrey Vats — Systems, Rust & Solana Developer",
+    title: "Shrey Vats — Rust, Backend & Solana Developer",
     description:
-      "Exploring Rust, backend systems, and Solana protocol development beneath abstractions.",
+      "Building software with Rust, TypeScript, and tools from the Solana ecosystem.",
     siteName: "Shrey Vats",
     images: [
       {
         url: "https://github.com/shreyvats01.png",
         width: 1200,
         height: 630,
-        alt: "Shrey Vats — Rust & Solana Developer",
+        alt: "Shrey Vats",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Shrey Vats — Systems, Rust & Solana Developer",
+    title: "Shrey Vats — Rust, Backend & Solana Developer",
     description:
-      "Exploring Rust, backend systems, and Solana protocol development beneath abstractions.",
+      "Building software with Rust, TypeScript, and tools from the Solana ecosystem.",
     creator: "@shreyvats01",
     images: ["https://github.com/shreyvats01.png"],
   },
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
   },
   alternates: {
     canonical: "/",
@@ -92,23 +85,20 @@ export default function RootLayout({
       siteConfig.socials.x,
       siteConfig.socials.linkedin,
     ],
-    jobTitle: "Software Developer (Rust & Solana)",
+    jobTitle: "Software Developer",
     knowsAbout: [
       "Rust",
       "Solana",
-      "Systems Programming",
-      "Backend Engineering",
-      "On-chain Programs",
+      "Backend Development",
       "PostgreSQL",
       "TypeScript",
       "WebSockets",
     ],
     nationality: {
       "@type": "Country",
-      "name": "India",
+      name: "India",
     },
-    description:
-      "Developer exploring Rust, backend systems, and Solana on-chain programs.",
+    description: siteConfig.heroIntro,
   };
 
   return (
@@ -129,7 +119,14 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
-        {children}
+        <Header />
+        <main
+          id="main-content"
+          className="flex-1 mx-auto w-full max-w-4xl px-6 py-14 md:py-20"
+        >
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   );

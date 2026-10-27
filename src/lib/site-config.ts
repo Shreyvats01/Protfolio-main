@@ -2,13 +2,13 @@ export const siteConfig = {
   name: "Shrey Vats",
   monogram: "SV",
   handle: "shreyvats01",
-  role: "Rust, Backend Systems & Solana Developer",
-  headline:
-    "Building low-level software, resilient backend services, and on-chain programs on Solana.",
-  intro:
-    "I’m Shrey Vats, a developer exploring Rust, backend systems, and Solana. I like understanding what happens beneath abstractions—from memory layout and async I/O to deterministic account state—and building software around that understanding.",
-  currentFocus:
-    "Currently exploring Solana account runtime mechanics, zero-copy deserialization in Rust, and high-concurrency backend pipelines.",
+  role: "Rust, Backend & Solana Developer",
+  heroIntro:
+    "I'm Shrey Vats. I build software with Rust, TypeScript, and tools from the Solana ecosystem. I'm interested in how systems work under the surface.",
+  aboutPreview:
+    "I spend most of my time writing Rust and TypeScript, building backend services, and testing ideas on Solana. When I work with a framework or protocol, I like reading the underlying code to see how state, network I/O, and errors are actually handled.",
+  contactIntro:
+    "If you want to talk about Rust, Solana, backend projects, or anything in my repositories, send me an email or reach out on GitHub or X.",
   location: "India",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://shrey.online",
   contact: {
@@ -23,55 +23,58 @@ export const siteConfig = {
     x: "https://x.com/shreyvats01",
     linkedin: "https://linkedin.com/in/shreyvats01",
   },
-  domains: [
+  aboutBio: [
+    "I'm a developer from India focused on Rust, backend services, and Solana programs. I started programming because I wanted to understand how software works below high-level abstractions—how bytes are stored, how servers manage concurrent connections, and how on-chain programs validate state.",
+    "Most of my learning comes from building small, focused projects from scratch. Writing Rust and working with the Solana runtime forces me to think clearly about data ownership, account permissions, and failure cases before code ever runs.",
+    "Right now I'm exploring async Rust networking, Solana program architecture with Anchor and SPL tokens, and relational database design with PostgreSQL.",
+  ],
+  skillGroups: [
     {
-      index: "01",
-      title: "Systems & Rust Engineering",
-      summary:
-        "Writing predictable, memory-safe services and CLI tooling with explicit error boundaries, async runtime discipline, and minimal allocation overhead.",
-      stack: ["Rust", "Tokio", "Async I/O", "Serde", "Memory Layout", "Linux"],
+      title: "Systems and Rust",
+      description:
+        "Writing command-line tools, async workers, and network services in Rust.",
+      skills: ["Rust", "Tokio", "Serde", "Cargo", "Linux"],
     },
     {
-      index: "02",
-      title: "Solana Protocol Development",
-      summary:
-        "Designing deterministic on-chain programs using Program Derived Addresses (PDAs), Cross-Program Invocations (CPIs), and strict account validation.",
-      stack: [
-        "Solana SVM",
-        "Anchor",
-        "SPL Token-2022",
-        "ERC-4626 Vaults",
-        "PDAs & CPI",
-        "web3.js",
-      ],
+      title: "Backend development",
+      description:
+        "Building HTTP APIs, WebSocket servers, and relational schemas.",
+      skills: ["PostgreSQL", "SQLx", "Node.js", "WebSockets", "REST APIs"],
     },
     {
-      index: "03",
-      title: "Backend & Distributed State",
-      summary:
-        "Architecting real-time WebSocket pipelines, relational schemas, and transactional APIs that stay consistent under concurrent client load.",
-      stack: [
-        "PostgreSQL",
-        "SQLx",
-        "WebSockets",
-        "TypeScript",
-        "Node.js",
-        "Next.js",
-      ],
+      title: "Solana and smart contracts",
+      description:
+        "Writing on-chain programs, token vaults, and client transaction builders.",
+      skills: ["Solana", "Anchor", "SPL Token", "PDAs & CPI", "web3.js"],
+    },
+    {
+      title: "Frontend and developer tools",
+      description:
+        "Creating web interfaces for developer tools and on-chain apps.",
+      skills: ["TypeScript", "React", "Next.js", "Tailwind CSS", "Git"],
     },
   ],
-  principles: [
+  workingHabits: [
     {
-      title: "Read beneath the abstraction",
-      body: "Frameworks accelerate delivery, but debugging latency spikes or state corruption requires knowing how the underlying runtime, database engine, or VM actually executes instructions.",
+      title: "Building to understand",
+      description:
+        "When I want to learn a standard like ERC-4626 or a protocol like WebSockets, I build a working implementation to see where the edge cases are.",
+      projectSlug: "solana-programs",
+      projectLabel: "Solana Programs",
     },
     {
-      title: "Explicit invariants over implicit trust",
-      body: "Whether validating Solana account ownership on-chain or enforcing relational constraints in PostgreSQL, state transitions should verify invariants at the boundary.",
+      title: "Keeping state explicit",
+      description:
+        "I prefer compile-time SQL checks and explicit account validation over hidden magic, so bugs surface early.",
+      projectSlug: "wiki-backend",
+      projectLabel: "Wiki Backend",
     },
     {
-      title: "Learn by shipping working systems",
-      body: "Every repository is an exercise in turning protocol specifications and systems concepts into inspectable, working software with clear trade-offs.",
+      title: "Reading source code",
+      description:
+        "Studying open-source crates and Solana programs helps me write simpler, more idiomatic Rust.",
+      projectSlug: "lemon",
+      projectLabel: "Lemon",
     },
   ],
 } as const;

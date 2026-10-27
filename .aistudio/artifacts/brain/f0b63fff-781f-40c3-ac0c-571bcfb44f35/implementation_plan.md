@@ -1,142 +1,125 @@
-# Shrey Vats — Systems & Solana Engineering Portfolio Redesign
+# Shrey Vats — Multi-Route Dark Editorial Portfolio & Copy Refactor
 
-This plan outlines the architectural and visual transformation of Shrey Vats's developer portfolio into a restrained, editorial-grade engineering showcase centered on Rust, backend infrastructure, and Solana protocol development, backed by resilient server-side GitHub GraphQL and REST fallbacks.
+This plan restructures the portfolio from a single overloaded page into a focused, multi-route Next.js App Router application (`/`, `/projects`, `/projects/[slug]`, `/about`, `/contact`, and `/activity`), eliminates light/washed-out UI component surfaces, and rewrites all project and bio copy in a natural, concise developer voice.
 
 ## User Review & Critical Decisions
 
 > [!IMPORTANT]
-> The following product and technical decisions incorporate your confirmed preferences and codebase audit findings. Review and click **Proceed** to begin implementation.
+> The following architectural and design decisions incorporate your feedback and audit findings. Review and click **Proceed** to execute the refactor.
 
-- **Confirmed Decision 1 — Hybrid Real Repository Fetching + Curated Overrides**: We will dynamically fetch public repositories from `shreyvats01` via GitHub (using authenticated GraphQL when `GITHUB_TOKEN` is configured, and falling back cleanly to GitHub's public REST API when unauthenticated) and merge them with curated metadata and verified projects (such as **Lemon**, **Wiki Backend**, **Solana On-Chain Programs / ERC-4626 Vault & Escrow**, and **Token Launchpad**).
-- **Confirmed Decision 2 — Contact & Custom Mail Domain Configuration**: The placeholder `shreyvats01@example.com` address will be removed. The Contact section and Command Palette will read from `NEXT_PUBLIC_CONTACT_EMAIL` (defaulting to `contact@shrey.online` / `https://contact.shrey.online` and supporting your Resend-powered `mail.shrey.online` endpoint configuration) while keeping direct links to GitHub, X, and LinkedIn always accessible.
-- **Confirmed Decision 3 — Architectural Diagrams & Technical Spec Previews**: Featured projects will display bespoke, high-contrast SVG system architecture and protocol flow diagrams (e.g., Telegram-to-Solana RPC signer flow for Lemon, SQLx/WebSocket state pipeline for Wiki Backend, PDA vault accounting for Solana Programs) alongside problem statements, stack metadata, and independent Source and Live Demo actions.
-- **Confirmed Decision 4 — Canonical Domain & Metadata Consistency**: Canonical URLs, OpenGraph, sitemap, robots, and JSON-LD Person schema will unify around `NEXT_PUBLIC_SITE_URL` with a consistent default origin (`https://shrey.online`).
+- **Confirmed Decision 1 — Dedicated `/activity` Route**: GitHub statistics, the 52-week contribution heatmap, and pull-request tabs move off the homepage to `/activity`, linked unobtrusively from the shared footer and Command Palette (`⌘K` / `Ctrl K`).
+- **Confirmed Decision 2 — Two-Tier Project Previews (`/projects` & `/projects/[slug]`)**: Project cards on `/` and `/projects` display a compact, dark-themed schematic preview alongside a 15–35 word summary and 2–4 stack labels, while `/projects/[slug]` renders the full architecture diagram, plain-English overview, and key technical decisions.
+- **Confirmed Decision 3 — Eliminating Light-Looking & Washed-Out UI Surfaces**:
+  - **Root Causes Identified in Audit**:
+    1. `TooltipContent` used `bg-foreground text-background`, which inverted to bright white (`#F1F5F9`) in dark mode.
+    2. `DialogOverlay` used `bg-black/10` (nearly transparent) and `DialogContent` used `ring-foreground/10` instead of a solid `#12161B` surface and `#242A31` border.
+    3. `TabsTrigger` and `Input`/`Textarea` used `dark:bg-input/30`, creating muddy translucent gray boxes.
+  - **Fix**: All UI primitives (`tooltip`, `dialog`, `command`, `tabs`, `input`, `textarea`, `card`) will strictly bind to `#0B0D0F` (background), `#12161B` (main surface), `#171C22` (secondary surface), and `#242A31` (border).
+- **Confirmed Decision 4 — Natural, Plain-English Copywriting**: All inflated buzzwords ("high-throughput", "zero-trust", "sub-millisecond", "deterministic") are replaced with direct, factual descriptions within strict word-count budgets.
 
 ---
 
 ## 1. Overview & Core Concept
 
-- **What It Does**: Presents Shrey Vats's systems programming, backend architecture, and Solana engineering work through an editorial layout that prioritizes real code artifacts, architectural diagrams, engineering philosophy, and live open-source activity.
-- **Target Audience / Persona**: Systems engineers, protocol teams, open-source maintainers, and technical founders evaluating depth of understanding in Rust, low-level execution, and distributed systems.
-- **Key Value**: Replaces generic template placeholders and fragile API assumptions with a high-trust engineering monograph where every claim is paired with verifiable repositories, architectural schematics, and truthful telemetry.
+- **What It Does**: Gives visitors an immediate, scannable overview on `/` (Hero, 3 Featured Projects, brief About preview, brief Contact link) and dedicated pages for browsing all projects (`/projects`), reading project breakdowns (`/projects/[slug]`), learning about Shrey's background (`/about`), getting in touch (`/contact`), or viewing open-source activity (`/activity`).
+- **Target Audience / Persona**: Engineers and collaborators who value clarity, honest technical descriptions, and fast navigation over marketing walls of text.
+- **Key Value**: Every page has a single clear purpose, consistent dark surfaces, and grounded copy that lets the code speak for itself.
 
 ---
 
 ## 2. User Experience & Visual Design
 
-### Key User Flows
+### Route Hierarchy & Content Budgets
 
-1. **Arrival & Orientation (Header + Editorial Hero)**:
-   - Visitors land on a focused 3-zone header (`SV — Shrey Vats` brand mark, single-line anchor links for `Projects`, `About`, `Activity`, `Contact`, and a keyboard-accessible `Cmd/Ctrl+K` trigger + primary contact action).
-   - The Hero introduces Shrey Vats's focus on Rust, backend systems, and Solana internals without relying on age as a gimmick, offering immediate primary actions to explore selected work or initiate contact.
-2. **Technical Evaluation (Featured & Secondary Projects)**:
-   - Visitors inspect Featured Work first, examining bespoke architectural schematics, problem statements, implementation notes, and verified repository metrics (`tabular-nums` stars, forks, primary language) with independent links for Source and Live Demo.
-   - Additional repositories from `shreyvats01` are presented in a clean secondary index below the featured showcase.
-3. **Engineering Philosophy & Capabilities (About & Technical Focus)**:
-   - Visitors read a concise 3-paragraph narrative detailing how Shrey approaches systems beneath abstractions, coupled with a structured specification grid of core domains (Systems & Rust, Solana & On-Chain Programs, Backend & Infrastructure).
-4. **Open-Source Proof (GitHub Activity & Pull Requests)**:
-   - Visitors review contribution totals, a responsive 52-week contribution heatmap with keyboard-focusable cells and date/count tooltips, and filterable Pull Request tabs (`Merged`, `Open`, `Closed`) with explicit semantic icons and graceful fallback states when offline or unauthenticated.
-5. **Direct Outreach (Contact & Command Palette)**:
-   - Visitors reach out via the configured `shrey.online` contact address/endpoint or social channels, or press `Cmd/Ctrl+K` from anywhere to jump to sections, inspect repositories, or copy/trigger contact details.
+1. **Shared Layout (`Header` & `Footer`)**:
+   - **Header**: Compact top bar with `SV` wordmark (`/`), primary route links (`Projects`, `About`, `Contact`), a restrained `⌘K` Command Palette button, and an accessible mobile menu drawer that closes on route selection.
+   - **Footer**: Minimal single-row footer with identity (`Shrey Vats`), secondary route links (`Projects`, `About`, `Activity`, `Contact`), and social links (`GitHub`, `X`, `LinkedIn`).
+2. **Home (`/`) — Strict Preview Budget**:
+   - **Hero**: Name (`Shrey Vats`), 25–35 word introduction (*"I'm Shrey Vats. I build software with Rust, TypeScript, and tools from the Solana ecosystem. I'm interested in how systems work under the surface."*), two actions (`View Projects` → `/projects`, `Contact` → `/contact`), and social links.
+   - **Featured Work**: Exactly 3 featured projects (`Lemon`, `Solana Programs`, `Wiki Backend`) with compact schematic previews, 15–30 word summaries, 3–4 stack tags, a link to `/projects/[slug]`, a link to GitHub source, and a `"View all projects →"` link to `/projects`.
+   - **About Preview**: 45–65 word summary of how Shrey learns and builds, paired with a `"More about me →"` link to `/about`.
+   - **Contact Invitation**: 20-word invitation paired with a `"Get in touch →"` link to `/contact`.
+3. **Project Catalogue (`/projects`)**:
+   - Working client-side category filter bar (`All`, `Solana`, `Systems & Rust`, `Backend`).
+   - 2-column responsive grid of curated projects (with compact schematic previews, 15–35 word summaries, 2–4 tags, `/projects/[slug]` detail link, and source link) followed by a compact list of additional public GitHub repositories.
+4. **Project Detail (`/projects/[slug]`)**:
+   - Back link to `/projects`, project title, category, stack tags, and direct Source / Demo links.
+   - 40–80 word plain-English overview of what the project does and why it was built.
+   - Full dark-themed SVG architecture diagram showing how components interact.
+   - 2–3 concise technical notes (20–45 words each) explaining real implementation details (e.g., Tokio task handling, Anchor PDA validation, SQLx queries).
+5. **About (`/about`)**:
+   - 140–180 word personal introduction written in a natural voice.
+   - Grouped technical capabilities (`Systems and Rust`, `Backend development`, `Solana and smart contracts`, `Frontend and developer tools`), each with a 1-sentence description and verified tools.
+   - Short list of working habits with direct links to relevant `/projects/[slug]` pages.
+6. **Contact (`/contact`)**:
+   - Short 20-word introduction, direct `mailto:contact@shrey.online` link, one-click copy-email button, social links (`GitHub`, `X`, `LinkedIn`), and a clean message form that validates input and falls back honestly to `mailto:` if the external endpoint does not confirm delivery.
+7. **GitHub Activity (`/activity`)**:
+   - Houses the `StatsBar`, 52-week `Heatmap`, and `PrSection` tabs (`Merged`, `Open`, `Closed`) with honest fallback states when `GITHUB_TOKEN` is absent.
 
-### Visual Identity & Theme
+### Visual Identity & Dark Surface Audit
 
-- **Aesthetic Direction**: Utilitarian editorial monograph—crisp hairline borders, deep carbon-slate surfaces, technical schematics, and disciplined negative space.
-- **Color Palette & Mood** (60-30-10 allocation):
-  - **60% Dominant Canvas**: Deep carbon (`#0B0D0F` / `--background`) with high-contrast primary text (`#F1F5F9` / `--foreground`) and optical readability tuning (`#A1AAB6` secondary prose, `#788391` technical metadata).
-  - **30% Structural Surfaces**: Elevated slate cards (`#12161B` / `--card`), secondary wells (`#171C22` / `--secondary`), and crisp `1px` borders (`#242A31` / `--border`).
-  - **10% Restrained Accent**: Signal lime (`#B7F36B` / `--primary`) reserved strictly for focus-visible rings, active tab indicators, primary interactive highlights, and upper-tier heatmap intensity. Semantic PR states remain distinct (Merged purple, Open emerald, Closed rose-slate).
-- **Typography & Hierarchy**:
-  - **Display & Headings**: `Geist Sans` with fluid scaling (`clamp(2.25rem, 4.5vw, 4.25rem)` for hero headline, `1.75rem–2.25rem` for section headers, `text-wrap: balance`, tight tracking).
-  - **Body Prose**: `Geist Sans` at `16px–17px` with `1.65` line-height and `65ch` measure for comfortable reading.
-  - **Technical Metadata & Schematics**: `Geist Mono` (`11px–13px`, `tabular-nums`) for stack tags (unboxed inline text with `·` separators or subtle technical cells), commit/PR timestamps, and architecture diagram annotations.
-- **Component Styling & Layout**:
-  - Max-width `1080px` (`max-w-5xl`) editorial container with a 12-column internal grid, `1px` structural hairlines, and zero nested card-in-card clutter.
-  - No thick left accent borders (`border-l-2` removed from project impact statements), no pulsing decorative green dots, and no overflowing pill clusters.
-- **Interactive Feedback & Motion**:
-  - `150ms–200ms` transitions on `transform` and `opacity` only.
-  - Full `prefers-reduced-motion` support across the `CountUp` statistics ticker, section entrances, and hover states.
+- **Centralized Dark Palette**:
+  - Background: `#0B0D0F` (`--background`)
+  - Main Surface (cards, dialogs, tooltips): `#12161B` (`--card`, `--popover`)
+  - Secondary Surface (inputs, inactive tabs, subtle wells): `#171C22` (`--secondary`, `--muted`)
+  - Border: `#242A31` (`--border`, `--input`)
+  - Primary Text: `#F1F5F9` (`--foreground`)
+  - Secondary Text: `#A1AAB6` (`--muted-foreground`)
+  - Muted Text: `#788391`
+  - Accent: `#B7F36B` (`--primary`)
 
 ---
 
 ## 3. Key Product Decisions & Trade-Offs
 
-- **Decision 1 — Resilient Dual-Mode GitHub Data Layer (GraphQL + Public REST Fallback)**
-  - *Chosen Approach*: Parameterize GraphQL queries with variables, validate `owner/name` slugs, batch repository metadata inside a single query, and fall back to GitHub's unauthenticated public REST endpoints (`/users/shreyvats01`, `/users/shreyvats01/repos`, `/search/issues`) if `GITHUB_TOKEN` is absent or rate-limited—while explicitly tagging the response status (`live`, `partial`, or `unavailable`) so missing data never masquerades as `0`.
-  - *Why*: Guarantees the portfolio renders real repository stars, languages, and PRs even in local/preview environments without a secret token, and prevents silent zero-value falsification if GitHub is unreachable.
-  - *Alternatives Considered*: Failing to `0` on missing `GITHUB_TOKEN` (rejected: violates truthfulness criteria and makes local/preview builds look empty).
-- **Decision 2 — Inline SVG Architectural Diagrams for Featured Work**
-  - *Chosen Approach*: Render deterministic, accessible SVG architecture diagrams tailored to each featured system (e.g., Solana PDA state flow, Rust async worker pipeline, Telegram wallet signer bridge) directly inside featured project cards.
-  - *Why*: Aligns with the editorial systems-engineering aesthetic, scales cleanly at any DPI without CLS, and communicates real system topology rather than decorative stock imagery.
-  - *Alternatives Considered*: Generic gradient thumbnails or fake terminal windows (rejected: explicitly prohibited by design constraints).
-- **Decision 3 — Configurable `shrey.online` Contact & Mail Integration**
-  - *Chosen Approach*: Centralize site identity, canonical domain (`https://shrey.online`), contact email (`NEXT_PUBLIC_CONTACT_EMAIL` defaulting to `contact@shrey.online`), and optional Resend mail endpoint (`NEXT_PUBLIC_MAIL_ENDPOINT` supporting `https://mail.shrey.online` / `https://contact.shrey.online`) in a typed configuration module.
-  - *Why*: Eliminates the hardcoded `shreyvats01@example.com` bug across both the Contact section and Command Palette while supporting your custom `contact.shrey.online` and `mail.shrey.online` infrastructure out of the box.
+- **Decision 1 — Multi-Page App Router Over Single-Page Scroll**
+  - *Chosen Approach*: Split content into `/`, `/projects`, `/projects/[slug]`, `/about`, `/contact`, and `/activity`, with `generateStaticParams` on `/projects/[slug]`.
+  - *Why*: Eliminates cognitive overload on the landing page, gives each project its own shareable URL, and keeps every page scannable in seconds.
+- **Decision 2 — Compact Preview vs. Full Diagram Split**
+  - *Chosen Approach*: Render a lightweight, minimal 3-node flow header preview on project cards while reserving the detailed multi-stage SVG diagram for `/projects/[slug]`.
+  - *Why*: Gives project cards visual distinction on `/projects` without crowding the grid or repeating dense text.
+- **Decision 3 — Grounded Copy Over Marketing Superlatives**
+  - *Chosen Approach*: Rewrite all project data and bio paragraphs to state what each tool does first, what problem it addresses, and how it is built using plain technical nouns (e.g., "Uses SQLx and PostgreSQL to store tasks and broadcasts updates over WebSockets") instead of exaggerated claims.
+  - *Why*: Builds genuine credibility with experienced engineers.
 
 ---
 
 ## 4. Technical Architecture & Data Strategy *(Technical Reference)*
 
-### Architecture & Component Diagram
+### Route & Component Architecture Diagram
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────┐
-│                        Next.js App Router (Server)                           │
-│                                                                              │
-│  ┌────────────────────────────────────┐   ┌───────────────────────────────┐  │
-│  │     GitHub Data Service            │   │   Portfolio Config & Data     │  │
-│  │  • Parameterized GraphQL Query     │   │  • Curated Project Specs      │  │
-│  │  • Public REST API Fallback        │   │  • Architecture Diagram Specs │  │
-│  │  • Status: live | partial | error  │   │  • Contact & Domain Config    │  │
-│  └─────────────────┬──────────────────┘   └───────────────┬───────────────┘  │
-│                    └──────────────────┬───────────────────┘                  │
-│                                       ▼                                      │
-│                    ┌──────────────────────────────────────┐                  │
-│                    │       Home Page Server Assembly      │                  │
-│                    │  Merges live repo metrics with       │                  │
-│                    │  curated overrides & status flags    │                  │
-│                    └──────────────────┬───────────────────┘                  │
-└───────────────────────────────────────┼──────────────────────────────────────┘
-                                        │
-        ┌───────────────────────────────┼───────────────────────────────┐
-        ▼                               ▼                               ▼
-┌───────────────────────┐   ┌───────────────────────┐   ┌──────────────────────┐
-│ Navigation & Command  │   │   Editorial Content   │   │  Activity & Outreach │
-│ • Compact Top Header  │   │ • Hero Section        │   │ • StatsBar (CountUp) │
-│ • Mobile Nav Drawer   │   │ • Featured Projects   │   │ • Accessible Heatmap │
-│ • CommandPalette (⌘K) │   │   + System Diagrams   │   │ • PR Tabs & States   │
-│   Platform-aware keys │   │ • Secondary Repo Grid │   │ • Contact & Resend   │
-│   & Contact actions   │   │ • About & Principles  │   │   Link / Copy Action │
-└───────────────────────┘   └───────────────────────┘   └──────────────────────┘
+│                     Root Layout (Header · Main · Footer)                     │
+│        Shared Dark Theme (#0B0D0F / #12161B / #171C22 / #242A31)             │
+└───────┬───────────────┬────────────────┬───────────────┬──────────────┬──────┘
+        │               │                │               │              │
+        ▼               ▼                ▼               ▼              ▼
+┌──────────────┐ ┌──────────────┐ ┌─────────────┐ ┌─────────────┐ ┌────────────┐
+│      /       │ │  /projects   │ │   /about    │ │  /contact   │ │ /activity  │
+│ • Short Hero │ │ • Category   │ │ • 160w Bio  │ │ • Verified  │ │ • StatsBar │
+│ • 3 Featured │ │   Filter Bar │ │ • 4 Skill   │ │   Email &   │ │ • Heatmap  │
+│   Cards      │ │ • Curated    │ │   Groups    │ │   Copy Btn  │ │ • PR Tabs  │
+│ • 50w About  │ │   Grid       │ │ • Working   │ │ • Socials   │ │   (Merged/ │
+│   Preview    │ │ • Additional │ │   Habits +  │ │ • Validated │ │    Open/   │
+│ • Contact    │ │   GH Repos   │ │   Links     │ │   Form      │ │    Closed) │
+│   Link       │ └──────┬───────┘ └─────────────┘ └─────────────┘ └────────────┘
+└──────────────┘        │
+                        ▼
+               ┌──────────────────┐
+               │ /projects/[slug] │
+               │ • 60w Overview   │
+               │ • Full Dark SVG  │
+               │   System Diagram │
+               │ • Technical      │
+               │   Decisions      │
+               │ • Live GH Stats  │
+               └──────────────────┘
 ```
-
-### Data Model & State
-
-- **`GithubFetchResult`**:
-  - `status`: `'authenticated' | 'public_fallback' | 'unavailable'`
-  - `stats`: Nullable numeric fields (`mergedPrsCount: number | null`, `totalContributions: number | null`, `reposCount: number | null`, `totalStars: number | null`) so the UI renders `"—"` with an explanatory status note when unavailable rather than a false `0`.
-  - `weeks`: Contribution calendar array (with explicit empty/unavailable distinction).
-  - `prs`: `{ merged: PRNode[]; open: PRNode[]; closed: PRNode[] }`.
-  - `repositories`: Map of `owner/name` to `{ stargazerCount, forkCount, primaryLanguage, description, homepageUrl, updatedAt }` used to enrich Featured Projects without N+1 per-card API requests.
-- **`ProjectSpec`**:
-  - Combines verified repository identifiers (`shreyvats01/lemon`, `shreyvats01/wiki-backend`, `shreyvats01/solana-programs`, `shreyvats01/token-launchpad`, plus dynamically discovered active repos) with structured `tagline`, `problem`, `architectureSummary`, `diagramType`, `tags`, `repoUrl`, and verified `demoUrl`.
 
 ### Interactive Component & State Mapping
 
-- **Header & Mobile Navigation**:
-  - Desktop displays the 3-zone top bar with smooth anchor scrolling (`scroll-margin-top` on all target sections) and a keyboard shortcut button that opens the Command Palette.
-  - Mobile provides a clean, accessible toggle menu with focus management, Escape-to-close, and automatic closure on route/anchor selection.
-- **Featured & Secondary Project Cards**:
-  - Separate, non-overlapping interactive links for **Source Code** (`github.com/...`) and **Live Demo** (rendered only when a verified URL exists) so card clicks never trap or block secondary actions.
-  - Interactive diagram toggle or inspection view allowing visitors to switch between the architectural schematic and key technical invariants.
-- **StatsBar & CountUp**:
-  - Checks `window.matchMedia('(prefers-reduced-motion: reduce)')`; if enabled, renders the final value immediately.
-  - Uses `requestAnimationFrame` with a bounded `750ms` cubic ease-out curve and clean unmount cancellation. Displays `"—"` if a metric is `null` (unavailable).
-- **Contribution Heatmap**:
-  - Renders keyboard-focusable day cells (`tabIndex={0}`, `role="gridcell"`, `aria-label="X contributions on Date"`) with distinct styling for `0` contributions (`#161B22` with subtle border) vs. 4-tier lime intensity levels.
-  - Includes a live selected/focused day readout bar below the grid so touch devices and keyboard users can inspect any day without relying solely on mouse hover.
-- **Pull Requests Section (`PrSection`)**:
-  - Accessible segmented tabs (`Merged`, `Open`, `Closed`) with count badges, distinct status icons (`GitMerge`, `CircleDot`, `CircleSlash`), human-readable relative/short dates, and clear differentiation between "No open pull requests" and "Pull request data temporarily unavailable".
-- **Contact Section & Command Palette**:
-  - Provides direct one-click email launch (`mailto:` or `contact.shrey.online`), a **Copy Email** button with instant visual confirmation (`Copied to clipboard`), and direct links to GitHub, X, and LinkedIn.
-  - Command Palette detects macOS vs. Windows/Linux (`⌘K` vs `Ctrl K`), supports jumping to all page sections (`#projects`, `#about`, `#activity`, `#contact`), opening featured repositories, and triggering contact actions.
+- **Header (`Header`)**: Uses `usePathname()` from `next/navigation` to highlight the active route (`/`, `/projects`, `/about`, `/contact`), supports keyboard navigation, and closes the mobile drawer automatically on link click or `Escape`.
+- **Project Catalogue Filter (`ProjectsCatalogue`)**: Client-side filter state (`All`, `Solana`, `Systems & Rust`, `Backend`) that filters curated projects cleanly with accessible `aria-pressed` buttons and a reset action if needed.
+- **Command Palette (`CommandPalette`)**: Uses `router.push()` to navigate across real routes (`/`, `/projects`, `/about`, `/contact`, `/activity`, and individual `/projects/[slug]` pages), plus direct contact and social actions.
+- **Contact Form (`ContactSection`)**: Validates email and message length, posts to the configured endpoint, checks HTTP status and JSON response before confirming delivery, and provides a one-click `mailto:` fallback when the external endpoint is unreachable or unverified.
