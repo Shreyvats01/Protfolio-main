@@ -1,0 +1,6 @@
+{
+  "summary": "Implementation plan for redesigning the /activity page: replacing 0, 1, or missing GitHub metrics with live language and engineering focus highlights, replacing the dead GITHUB_TOKEN placeholder with a public 52-week contribution heatmap and active repository timeline fallback, and fixing the mobile layout of the Recent Pull Requests section with full-width stacked cards and hidden empty status tabs.",
+  "updatedAt": "2026-11-02T14:51:40.298898297Z",
+  "requestFeedback": true,
+  "userFacing": true
+}

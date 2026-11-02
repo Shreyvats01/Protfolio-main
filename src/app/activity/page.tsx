@@ -50,15 +50,21 @@ export default async function ActivityPage() {
         contributions={githubData.stats.contributions}
         repos={githubData.stats.repos}
         stars={githubData.stats.stars}
+        discoveredRepos={githubData.discoveredRepos}
       />
 
-      <Heatmap weeks={githubData.weeks} status={githubData.status} />
+      <Heatmap
+        weeks={githubData.weeks}
+        status={githubData.status}
+        discoveredRepos={githubData.discoveredRepos}
+      />
 
       <PrSection
         openPrs={githubData.openPrs}
         closedPrs={githubData.closedPrs}
         mergedPrs={githubData.mergedPrs}
         status={githubData.status}
+        discoveredRepos={githubData.discoveredRepos}
       />
     </div>
   );

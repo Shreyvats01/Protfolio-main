@@ -1,3 +1,5 @@
+import { parsePublicContributionsToWeeks } from "./portfolio-helpers";
+
 const GITHUB_USERNAME = "shreyvats01";
 const REPO_SLUG_REGEX = /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/;
 
@@ -201,7 +203,7 @@ async function fetchPublicRestFallback(
       "User-Agent": "shreyvats-portfolio",
     };
 
-    const [userRes, reposRes, prsRes] = await Promise.all([
+    const [userRes, reposRes, prsRes, contribRes] = await Promise.all([
       fetch(`https://api.github.com/users/${encodeURIComponent(login)}`, {
         headers,
         next: { revalidate: 3600 },
@@ -224,6 +226,14 @@ async function fetchPublicRestFallback(
           next: { revalidate: 3600 },
         }
       ),
+      fetch(
+        `https://github-contributions-api.jogruber.de/v4/${encodeURIComponent(
+          login
+        )}?y=last`,
+        {
+          next: { revalidate: 3600 },
+        }
+      ).catch(() => null),
     ]);
 
     if (!userRes.ok && !reposRes.ok) {
@@ -233,6 +243,10 @@ async function fetchPublicRestFallback(
     const userJson = userRes.ok ? await userRes.json() : null;
     const reposJson = reposRes.ok ? await reposRes.json() : [];
     const prsJson = prsRes.ok ? await prsRes.json() : null;
+    const contribJson =
+      contribRes && contribRes.ok ? await contribRes.json() : null;
+
+    const parsedContribs = parsePublicContributionsToWeeks(contribJson);
 
     const nonForkRepos = Array.isArray(reposJson)
       ? reposJson.filter((r: Record<string, unknown>) => !r.fork)
@@ -336,15 +350,14 @@ async function fetchPublicRestFallback(
 
     return {
       status: "public_fallback",
-      statusMessage:
-        "Showing live public GitHub data. Configure GITHUB_TOKEN to unlock the 52-week contribution calendar.",
+      statusMessage: "Synchronized via live public GitHub data (ISR 1h)",
       stats: {
         prs: mergedCount,
-        contributions: null, // GraphQL-only field
+        contributions: parsedContribs.totalContributions,
         repos: reposCount,
         stars: reposRes.ok ? totalStars : null,
       },
-      weeks: [],
+      weeks: parsedContribs.weeks,
       openPrs,
       closedPrs,
       mergedPrs,

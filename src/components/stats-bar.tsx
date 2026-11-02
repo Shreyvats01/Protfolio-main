@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { RepoMetadata } from "@/lib/github";
+import { buildActivityStats } from "@/lib/portfolio-helpers";
 
 export function CountUp({
   to,
@@ -9,7 +11,7 @@ export function CountUp({
   to: number | null;
   className?: string;
 }) {
-  const [count, setCount] = useState<number>(0);
+  const [count, setCount] = useState<number>(to ?? 0);
 
   useEffect(() => {
     if (to === null || to <= 0) {
@@ -49,11 +51,7 @@ export function CountUp({
   }, [to]);
 
   if (to === null) {
-    return (
-      <span className={className} title="Metric requires GitHub token or live connection">
-        —
-      </span>
-    );
+    return <span className={className}>—</span>;
   }
 
   const prefersReducedMotion =
@@ -72,41 +70,24 @@ export function StatsBar({
   contributions,
   repos,
   stars,
+  discoveredRepos = [],
 }: {
   prs: number | null;
   contributions: number | null;
   repos: number | null;
   stars: number | null;
+  discoveredRepos?: RepoMetadata[];
 }) {
-  const items = [
-    {
-      label: "Merged PRs",
-      value: prs,
-      note: prs === null ? "Unavailable" : "Public history",
-    },
-    {
-      label: "Contributions (1y)",
-      value: contributions,
-      note:
-        contributions === null ? "Requires GITHUB_TOKEN" : "52-week total",
-    },
-    {
-      label: "Public Repos",
-      value: repos,
-      note: repos === null ? "Unavailable" : "Non-forked sources",
-    },
-    {
-      label: "Repo Stars",
-      value: stars,
-      note: stars === null ? "Unavailable" : "Across public work",
-    },
-  ];
+  const items = buildActivityStats(
+    { prs, contributions, repos, stars },
+    discoveredRepos
+  );
 
   return (
     <dl className="grid grid-cols-2 lg:grid-cols-4 overflow-hidden rounded-lg border border-border bg-card">
       {items.map((item, idx) => (
         <div
-          key={item.label}
+          key={item.id}
           className={`p-4 sm:p-5 flex flex-col justify-between gap-1.5 border-border ${
             idx < 2 ? "border-b lg:border-b-0" : ""
           } ${idx % 2 === 0 ? "border-r" : "lg:border-r"} ${
@@ -116,8 +97,18 @@ export function StatsBar({
           <dt className="font-mono text-[11px] sm:text-xs text-muted-subtle truncate">
             {item.label}
           </dt>
-          <dd className="text-xl sm:text-2xl md:text-3xl font-semibold tracking-tight text-foreground font-mono tabular-nums">
-            <CountUp to={item.value} />
+          <dd
+            className={
+              item.kind === "number"
+                ? "text-xl sm:text-2xl md:text-3xl font-semibold tracking-tight text-foreground font-mono tabular-nums"
+                : "text-sm sm:text-[15px] font-semibold tracking-tight text-foreground font-mono leading-snug"
+            }
+          >
+            {item.kind === "number" ? (
+              <CountUp to={item.numericValue} />
+            ) : (
+              <span>{item.textValue}</span>
+            )}
           </dd>
           <span className="font-mono text-[10px] sm:text-[11px] text-muted-subtle truncate">
             {item.note}
