@@ -17,6 +17,9 @@ export default async function HomePage() {
       {/* Section 1: Hero */}
       <section aria-labelledby="hero-heading" className="space-y-5 sm:space-y-6">
         <div className="space-y-3 sm:space-y-4 max-w-2xl">
+          <p className="font-mono text-xs text-primary">
+            {siteConfig.role} · {siteConfig.location}
+          </p>
           <h1
             id="hero-heading"
             className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-foreground"
@@ -28,31 +31,34 @@ export default async function HomePage() {
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5 pt-1">
-          <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-5 pt-1">
+          <div className="flex flex-wrap items-center gap-3">
             <Link
               href="/projects"
-              className="inline-flex min-h-[40px] items-center justify-center gap-2 rounded-md bg-primary px-4 py-2 font-mono text-xs font-semibold text-primary-foreground transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              className="group inline-flex min-h-[44px] sm:min-h-[40px] items-center justify-center gap-2 rounded-md bg-primary px-4 py-2 font-mono text-xs font-semibold text-primary-foreground transition-all duration-150 ease-[var(--ease-out-expo)] hover:opacity-90 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary whitespace-nowrap shrink-0"
             >
               <span>View Projects</span>
-              <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+              <ArrowRight
+                className="h-3.5 w-3.5 transition-transform duration-200 ease-[var(--ease-out-expo)] group-hover:translate-x-0.5"
+                aria-hidden="true"
+              />
             </Link>
 
             <Link
               href="/contact"
-              className="inline-flex min-h-[40px] items-center justify-center gap-2 rounded-md border border-border bg-card px-4 py-2 font-mono text-xs font-medium text-foreground transition-colors hover:border-foreground/25 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              className="inline-flex min-h-[44px] sm:min-h-[40px] items-center justify-center gap-2 rounded-md border border-border bg-card px-4 py-2 font-mono text-xs font-medium text-foreground transition-all duration-150 ease-[var(--ease-out-expo)] hover:border-foreground/30 hover:text-primary active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary whitespace-nowrap shrink-0"
             >
               <span>Contact</span>
             </Link>
           </div>
 
-          <div className="flex items-center gap-5 border-t border-border/60 pt-3 sm:border-t-0 sm:pt-0 font-mono text-xs text-muted-foreground">
+          <div className="flex items-center gap-5 border-t border-border/60 pt-2 sm:border-t-0 sm:pt-0 font-mono text-xs text-muted-foreground">
             <a
               href={siteConfig.socials.github}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub profile"
-              className="inline-flex items-center gap-1.5 py-1 hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
+              className="inline-flex min-h-[44px] sm:min-h-[32px] items-center gap-1.5 py-1 hover:text-foreground active:scale-[0.98] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
             >
               <GithubIcon className="h-4 w-4" />
               <span>GitHub</span>
@@ -62,7 +68,7 @@ export default async function HomePage() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="X profile"
-              className="inline-flex items-center gap-1.5 py-1 hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
+              className="inline-flex min-h-[44px] sm:min-h-[32px] items-center gap-1.5 py-1 hover:text-foreground active:scale-[0.98] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
             >
               <TwitterIcon className="h-4 w-4" />
               <span>X</span>
@@ -72,7 +78,7 @@ export default async function HomePage() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn profile"
-              className="inline-flex items-center gap-1.5 py-1 hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
+              className="inline-flex min-h-[44px] sm:min-h-[32px] items-center gap-1.5 py-1 hover:text-foreground active:scale-[0.98] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
             >
               <LinkedinIcon className="h-4 w-4" />
               <span>LinkedIn</span>
@@ -95,10 +101,13 @@ export default async function HomePage() {
           </h2>
           <Link
             href="/projects"
-            className="inline-flex items-center gap-1 py-1 font-mono text-xs text-primary hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm shrink-0"
+            className="group inline-flex min-h-[44px] sm:min-h-[32px] items-center gap-1 py-1 font-mono text-xs text-primary hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm shrink-0"
           >
             <span>View all projects</span>
-            <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+            <ArrowRight
+              className="h-3.5 w-3.5 transition-transform duration-200 ease-[var(--ease-out-expo)] group-hover:translate-x-0.5"
+              aria-hidden="true"
+            />
           </Link>
         </div>
 
@@ -129,13 +138,16 @@ export default async function HomePage() {
         <p className="text-sm sm:text-base leading-relaxed text-muted-foreground">
           {siteConfig.aboutPreview}
         </p>
-        <div className="pt-1">
+        <div>
           <Link
             href="/about"
-            className="inline-flex items-center gap-1.5 py-1 font-mono text-xs font-medium text-primary hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
+            className="group inline-flex min-h-[44px] sm:min-h-[32px] items-center gap-1.5 py-1 font-mono text-xs font-medium text-primary hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
           >
             <span>More about how I work</span>
-            <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+            <ArrowRight
+              className="h-3.5 w-3.5 transition-transform duration-200 ease-[var(--ease-out-expo)] group-hover:translate-x-0.5"
+              aria-hidden="true"
+            />
           </Link>
         </div>
       </section>
@@ -143,7 +155,7 @@ export default async function HomePage() {
       {/* Section 4: Small Contact Invitation */}
       <section
         aria-labelledby="contact-preview-heading"
-        className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-lg border border-border bg-card p-5 sm:p-6"
+        className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-lg border border-border bg-card p-5 sm:p-6 transition-colors duration-200 hover:border-foreground/25"
       >
         <div className="space-y-1 max-w-xl">
           <h2
@@ -159,10 +171,13 @@ export default async function HomePage() {
 
         <Link
           href="/contact"
-          className="inline-flex min-h-[38px] items-center gap-1.5 rounded-md bg-secondary border border-border px-4 py-2 font-mono text-xs font-medium text-foreground transition-colors hover:border-primary/50 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary whitespace-nowrap shrink-0 self-start sm:self-center"
+          className="group inline-flex min-h-[44px] sm:min-h-[38px] items-center gap-1.5 rounded-md bg-secondary border border-border px-4 py-2 font-mono text-xs font-medium text-foreground transition-all duration-150 ease-[var(--ease-out-expo)] hover:border-primary/50 hover:text-primary active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary whitespace-nowrap shrink-0 self-start sm:self-center"
         >
           <span>Contact page</span>
-          <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+          <ArrowRight
+            className="h-3.5 w-3.5 transition-transform duration-200 ease-[var(--ease-out-expo)] group-hover:translate-x-0.5"
+            aria-hidden="true"
+          />
         </Link>
       </section>
     </div>

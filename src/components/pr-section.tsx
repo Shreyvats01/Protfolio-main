@@ -77,7 +77,7 @@ export function PrSection({
     }
 
     return (
-      <div className="divide-y divide-border rounded-lg border border-border bg-card">
+      <div className="divide-y divide-border overflow-hidden rounded-lg border border-border bg-card">
         {prs.map((pr) => {
           const formattedDate = formatShortDate(pr.createdAt);
           return (
@@ -86,20 +86,20 @@ export function PrSection({
               href={pr.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 p-4 sm:px-5 transition-colors hover:bg-secondary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
+              className="group flex min-h-[56px] flex-col sm:flex-row sm:items-center justify-between gap-2.5 p-4 sm:px-5 transition-colors duration-150 hover:bg-secondary/60 active:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
             >
               <div className="min-w-0 space-y-1">
                 <div className="flex items-start sm:items-center justify-between sm:justify-start gap-2">
-                  <span className="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2 sm:line-clamp-1">
+                  <span className="text-sm font-medium text-foreground group-hover:text-primary transition-colors duration-150 line-clamp-2 sm:line-clamp-1">
                     {pr.title}
                   </span>
                   <ArrowUpRight
-                    className="h-3.5 w-3.5 shrink-0 text-muted-subtle transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-primary mt-0.5 sm:mt-0"
+                    className="h-3.5 w-3.5 shrink-0 text-muted-subtle transition-transform duration-200 ease-[var(--ease-out-expo)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-primary mt-0.5 sm:mt-0"
                     aria-hidden="true"
                   />
                 </div>
                 <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs text-muted-subtle tabular-nums">
-                  <span className="text-muted-foreground truncate max-w-[200px] sm:max-w-none">
+                  <span className="text-muted-foreground truncate max-w-[220px] sm:max-w-none">
                     {pr.repository.nameWithOwner}
                   </span>
                   {formattedDate && (
@@ -138,19 +138,19 @@ export function PrSection({
           <TabsList className="grid grid-cols-3 w-full sm:w-auto bg-background border border-border p-1 h-auto">
             <TabsTrigger
               value="merged"
-              className="px-2 sm:px-3 py-1.5 font-mono text-[11px] sm:text-xs whitespace-nowrap shrink-0 data-active:bg-secondary data-active:text-primary"
+              className="min-h-[40px] sm:min-h-[32px] px-2 sm:px-3 py-1.5 font-mono text-[11px] sm:text-xs tabular-nums whitespace-nowrap shrink-0 data-active:bg-secondary data-active:text-primary"
             >
               Merged ({mergedPrs.length})
             </TabsTrigger>
             <TabsTrigger
               value="open"
-              className="px-2 sm:px-3 py-1.5 font-mono text-[11px] sm:text-xs whitespace-nowrap shrink-0 data-active:bg-secondary data-active:text-primary"
+              className="min-h-[40px] sm:min-h-[32px] px-2 sm:px-3 py-1.5 font-mono text-[11px] sm:text-xs tabular-nums whitespace-nowrap shrink-0 data-active:bg-secondary data-active:text-primary"
             >
               Open ({openPrs.length})
             </TabsTrigger>
             <TabsTrigger
               value="closed"
-              className="px-2 sm:px-3 py-1.5 font-mono text-[11px] sm:text-xs whitespace-nowrap shrink-0 data-active:bg-secondary data-active:text-primary"
+              className="min-h-[40px] sm:min-h-[32px] px-2 sm:px-3 py-1.5 font-mono text-[11px] sm:text-xs tabular-nums whitespace-nowrap shrink-0 data-active:bg-secondary data-active:text-primary"
             >
               Closed ({closedPrs.length})
             </TabsTrigger>

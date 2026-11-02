@@ -61,12 +61,18 @@ export function ThemeToggle() {
         theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
       }
       title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-      className="inline-flex h-10 w-10 sm:h-8 sm:w-8 items-center justify-center rounded-md border border-border bg-card text-muted-foreground transition-colors hover:border-foreground/25 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary shrink-0"
+      className="group relative inline-flex h-11 w-11 sm:h-8 sm:w-8 items-center justify-center rounded-md border border-border bg-card text-muted-foreground transition-all duration-150 ease-[var(--ease-out-expo)] hover:border-foreground/30 hover:text-foreground active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary shrink-0"
     >
       {theme === "dark" ? (
-        <Sun className="h-4 w-4 sm:h-3.5 sm:w-3.5" aria-hidden="true" />
+        <Sun
+          className="h-4 w-4 sm:h-3.5 sm:w-3.5 transition-transform duration-200 ease-[var(--ease-out-expo)] group-hover:rotate-12"
+          aria-hidden="true"
+        />
       ) : (
-        <Moon className="h-4 w-4 sm:h-3.5 sm:w-3.5" aria-hidden="true" />
+        <Moon
+          className="h-4 w-4 sm:h-3.5 sm:w-3.5 transition-transform duration-200 ease-[var(--ease-out-expo)] group-hover:-rotate-12"
+          aria-hidden="true"
+        />
       )}
     </button>
   );

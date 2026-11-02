@@ -51,12 +51,12 @@ function CommandDialog({
       </DialogHeader>
       <DialogContent
         className={cn(
-          "top-[22%] translate-y-0 overflow-hidden rounded-lg border border-border bg-card p-0 sm:max-w-lg",
+          "top-[12%] sm:top-[20%] w-[calc(100%-1.5rem)] translate-y-0 overflow-hidden rounded-lg border border-border bg-card p-0 shadow-xl sm:max-w-lg",
           className
         )}
         showCloseButton={showCloseButton}
       >
-        <Command className="[&_[cmdk-group-heading]]:px-2.5 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:font-mono [&_[cmdk-group-heading]]:text-[11px] [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-wider [&_[cmdk-group-heading]]:text-muted-subtle [&_[cmdk-group]]:px-2 [&_[cmdk-group]]:py-1.5">
+        <Command className="[&_[cmdk-group-heading]]:px-2.5 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:font-mono [&_[cmdk-group-heading]]:text-[11px] [&_[cmdk-group-heading]]:tracking-wider [&_[cmdk-group-heading]]:text-muted-subtle [&_[cmdk-group]]:px-2 [&_[cmdk-group]]:py-1.5">
           {children}
         </Command>
       </DialogContent>
@@ -71,7 +71,7 @@ function CommandInput({
   return (
     <div
       data-slot="command-input-wrapper"
-      className="flex items-center gap-2.5 border-b border-border bg-background px-3.5 py-2.5"
+      className="flex min-h-[46px] items-center gap-2.5 border-b border-border bg-background px-3.5 py-2.5"
     >
       <SearchIcon className="size-4 shrink-0 text-muted-subtle" />
       <CommandPrimitive.Input
@@ -94,7 +94,7 @@ function CommandList({
     <CommandPrimitive.List
       data-slot="command-list"
       className={cn(
-        "max-h-80 scroll-py-1 overflow-x-hidden overflow-y-auto outline-none",
+        "max-h-[65vh] sm:max-h-80 scroll-py-1 overflow-x-hidden overflow-y-auto outline-none",
         className
       )}
       {...props}
@@ -150,7 +150,7 @@ function CommandItem({
     <CommandPrimitive.Item
       data-slot="command-item"
       className={cn(
-        "group/command-item relative flex cursor-pointer items-center gap-2.5 rounded-md px-2.5 py-2 text-sm text-muted-foreground outline-none select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 data-selected:bg-secondary data-selected:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "group/command-item relative flex min-h-[44px] sm:min-h-[38px] cursor-pointer items-center gap-2.5 rounded-md px-2.5 py-2 text-sm text-muted-foreground transition-colors duration-100 outline-none select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 data-selected:bg-secondary data-selected:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className
       )}
       {...props}

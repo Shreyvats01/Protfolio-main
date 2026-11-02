@@ -94,7 +94,7 @@ export function CommandPalette({
         aria-label="Search pages and projects"
         className={
           triggerClassName ||
-          "inline-flex h-10 w-10 sm:h-8 sm:w-auto items-center justify-center gap-2 rounded-md border border-border bg-card sm:px-2.5 font-mono text-xs text-muted-foreground transition-colors hover:border-foreground/25 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary whitespace-nowrap shrink-0"
+          "inline-flex h-11 w-11 sm:h-8 sm:w-auto items-center justify-center gap-2 rounded-md border border-border bg-card sm:px-2.5 font-mono text-xs text-muted-foreground transition-all duration-150 ease-[var(--ease-out-expo)] hover:border-foreground/30 hover:text-foreground active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary whitespace-nowrap shrink-0"
         }
       >
         <Search className="h-4 w-4 sm:h-3.5 sm:w-3.5" aria-hidden="true" />

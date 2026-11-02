@@ -4,11 +4,11 @@ import { siteConfig } from "@/lib/site-config";
 export function Footer() {
   return (
     <footer className="border-t border-border bg-background">
-      <div className="mx-auto flex max-w-4xl flex-col sm:flex-row items-start sm:items-center justify-between gap-5 px-4 sm:px-6 py-8 font-mono text-xs text-muted-subtle">
+      <div className="mx-auto flex max-w-4xl flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-5 px-4 sm:px-6 py-8 font-mono text-xs text-muted-subtle">
         <div className="flex items-center gap-2">
           <Link
             href="/"
-            className="text-foreground font-medium hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
+            className="text-foreground font-medium hover:text-primary transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm py-1"
           >
             {siteConfig.name}
           </Link>
@@ -16,29 +16,29 @@ export function Footer() {
           <span>© {new Date().getFullYear()}</span>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-5 w-full sm:w-auto">
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-5 w-full sm:w-auto">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
             <Link
               href="/projects"
-              className="py-0.5 hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
+              className="inline-flex min-h-[36px] sm:min-h-0 items-center py-1 hover:text-foreground transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
             >
               Projects
             </Link>
             <Link
               href="/about"
-              className="py-0.5 hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
+              className="inline-flex min-h-[36px] sm:min-h-0 items-center py-1 hover:text-foreground transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
             >
               About
             </Link>
             <Link
               href="/activity"
-              className="py-0.5 hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
+              className="inline-flex min-h-[36px] sm:min-h-0 items-center py-1 hover:text-foreground transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
             >
               Activity
             </Link>
             <Link
               href="/contact"
-              className="py-0.5 hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
+              className="inline-flex min-h-[36px] sm:min-h-0 items-center py-1 hover:text-foreground transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
             >
               Contact
             </Link>
@@ -48,12 +48,12 @@ export function Footer() {
             |
           </span>
 
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
             <a
               href={siteConfig.socials.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="py-0.5 hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
+              className="inline-flex min-h-[36px] sm:min-h-0 items-center py-1 hover:text-foreground transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
             >
               GitHub
             </a>
@@ -61,7 +61,7 @@ export function Footer() {
               href={siteConfig.socials.x}
               target="_blank"
               rel="noopener noreferrer"
-              className="py-0.5 hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
+              className="inline-flex min-h-[36px] sm:min-h-0 items-center py-1 hover:text-foreground transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
             >
               X
             </a>
@@ -69,7 +69,7 @@ export function Footer() {
               href={siteConfig.socials.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="py-0.5 hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
+              className="inline-flex min-h-[36px] sm:min-h-0 items-center py-1 hover:text-foreground transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
             >
               LinkedIn
             </a>

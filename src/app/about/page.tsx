@@ -54,11 +54,11 @@ export default function AboutPage() {
           </p>
         </div>
 
-        <div className="divide-y divide-border rounded-lg border border-border bg-card">
+        <div className="divide-y divide-border overflow-hidden rounded-lg border border-border bg-card">
           {siteConfig.skillGroups.map((group) => (
             <div
               key={group.title}
-              className="grid gap-4 p-5 sm:grid-cols-12 sm:items-baseline"
+              className="grid gap-3 sm:gap-4 p-5 sm:grid-cols-12 sm:items-baseline transition-colors duration-150 hover:bg-secondary/40"
             >
               <div className="sm:col-span-4">
                 <h3 className="text-sm font-semibold text-foreground">
@@ -109,7 +109,7 @@ export default function AboutPage() {
           {siteConfig.workingHabits.map((habit) => (
             <div
               key={habit.title}
-              className="flex flex-col justify-between rounded-lg border border-border bg-card p-5 space-y-4"
+              className="group flex flex-col justify-between rounded-lg border border-border bg-card p-5 space-y-4 transition-all duration-200 ease-[var(--ease-out-expo)] hover:border-foreground/30 hover:-translate-y-[1px]"
             >
               <div className="space-y-2">
                 <h3 className="text-sm font-semibold text-foreground">
@@ -122,10 +122,13 @@ export default function AboutPage() {
 
               <Link
                 href={`/projects/${habit.projectSlug}`}
-                className="inline-flex items-center gap-1.5 font-mono text-xs text-primary hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm pt-2"
+                className="group/link inline-flex min-h-[44px] sm:min-h-[32px] items-center gap-1.5 font-mono text-xs text-primary hover:underline underline-offset-4 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm pt-1"
               >
                 <span>See {habit.projectLabel}</span>
-                <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+                <ArrowRight
+                  className="h-3.5 w-3.5 transition-transform duration-200 ease-[var(--ease-out-expo)] group-hover:translate-x-0.5 group-hover/link:translate-x-1"
+                  aria-hidden="true"
+                />
               </Link>
             </div>
           ))}

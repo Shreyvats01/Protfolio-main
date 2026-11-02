@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Tooltip,
   TooltipContent,
@@ -28,6 +28,14 @@ export function Heatmap({
   status?: "authenticated" | "public_fallback" | "unavailable";
 }) {
   const [selectedDay, setSelectedDay] = useState<ContributionDay | null>(null);
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const el = scrollContainerRef.current;
+    if (el && el.scrollWidth > el.clientWidth) {
+      el.scrollLeft = el.scrollWidth;
+    }
+  }, [weeks.length]);
 
   const getCellStyle = (count: number) => {
     if (count === 0) {
@@ -100,9 +108,10 @@ export function Heatmap({
 
       <TooltipProvider delay={50}>
         <div
+          ref={scrollContainerRef}
           role="region"
           aria-label="GitHub contribution calendar"
-          className="overflow-x-auto pb-2"
+          className="overflow-x-auto pb-2 no-scrollbar"
         >
           <div className="inline-flex gap-1 min-w-max">
             {weeks.map((week, weekIdx) => (
@@ -128,9 +137,9 @@ export function Heatmap({
                             onClick={() => setSelectedDay(day)}
                             onFocus={() => setSelectedDay(day)}
                             onMouseEnter={() => setSelectedDay(day)}
-                            className={`h-3 w-3 rounded-[2px] transition-transform duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${getCellStyle(
+                            className={`h-3.5 w-3.5 sm:h-3 sm:w-3 rounded-[2px] transition-transform duration-150 ease-[var(--ease-out-expo)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${getCellStyle(
                               day.contributionCount
-                            )} ${isSelected ? "ring-1 ring-foreground scale-110" : ""}`}
+                            )} ${isSelected ? "ring-1 ring-foreground scale-115" : "hover:scale-110"}`}
                           />
                         }
                       />

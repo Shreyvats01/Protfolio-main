@@ -35,10 +35,13 @@ export default async function ActivityPage() {
           href={siteConfig.socials.github}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 font-mono text-xs text-primary hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm shrink-0"
+          className="group inline-flex min-h-[44px] sm:min-h-[32px] items-center gap-1 font-mono text-xs text-primary hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm shrink-0"
         >
           <span>github.com/{siteConfig.handle}</span>
-          <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+          <ArrowUpRight
+            className="h-3.5 w-3.5 transition-transform duration-200 ease-[var(--ease-out-expo)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            aria-hidden="true"
+          />
         </a>
       </header>
 
